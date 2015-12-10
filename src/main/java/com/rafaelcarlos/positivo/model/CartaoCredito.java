@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
@@ -19,6 +14,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -28,6 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "cartao_credito")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name = "CartaoCredito.findAll", query = "SELECT c FROM CartaoCredito c"),
     @NamedQuery(name = "CartaoCredito.findById", query = "SELECT c FROM CartaoCredito c WHERE c.id = :id"),
@@ -37,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "CartaoCredito.findByValidade", query = "SELECT c FROM CartaoCredito c WHERE c.validade = :validade"),
     @NamedQuery(name = "CartaoCredito.findByCpf", query = "SELECT c FROM CartaoCredito c WHERE c.cpf = :cpf")})
 public class CartaoCredito implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -168,5 +167,5 @@ public class CartaoCredito implements Serializable {
     public String toString() {
         return "com.rafaelcarlos.positivo.model.CartaoCredito[ id=" + id + " ]";
     }
-    
+
 }

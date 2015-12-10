@@ -27,6 +27,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.ws.BindingType;
@@ -38,6 +40,7 @@ import javax.xml.ws.BindingType;
 @Entity
 @Table(name = "recarga")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name = "Recarga.findAll", query = "SELECT r FROM Recarga r"),
     @NamedQuery(name = "Recarga.findById", query = "SELECT r FROM Recarga r WHERE r.id = :id"),
@@ -219,19 +222,21 @@ public class Recarga implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Recarga other = (Recarga) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Recarga other = (Recarga) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -239,7 +244,7 @@ public class Recarga implements Serializable {
 
     @Override
     public String toString() {
-        return "Recarga{" + "id=" + id + ", valor=" + valor + ", ddd=" + ddd + ", numeroCelular=" + numeroCelular + ", horarioVenda=" + horarioVenda + ", versao=" + versao + ", pago=" + pago + ", status=" + status + ", nsu=" + nsu + '}';
+        return "Recarga{" + "id=" + id + ", valor=" + valor + ", ddd=" + ddd + ", numeroCelular=" + numeroCelular + ", horarioVenda=" + horarioVenda + ", versao=" + versao + ", pago=" + pago + ", status=" + status + ", nsu=" + nsu + ", recargaCanceladaCollection=" + recargaCanceladaCollection + ", usuarioId=" + usuarioId + ", produtoId=" + produtoId + '}';
     }
 
 }

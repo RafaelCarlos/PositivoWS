@@ -8,6 +8,7 @@ package com.rafaelcarlos.positivo.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +24,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "recarga_automatica")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name = "RecargaAutomatica.findAll", query = "SELECT r FROM RecargaAutomatica r"),
     @NamedQuery(name = "RecargaAutomatica.findById", query = "SELECT r FROM RecargaAutomatica r WHERE r.id = :id"),
@@ -41,6 +45,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "RecargaAutomatica.findByDdd", query = "SELECT r FROM RecargaAutomatica r WHERE r.ddd = :ddd"),
     @NamedQuery(name = "RecargaAutomatica.findByRecargaAtivada", query = "SELECT r FROM RecargaAutomatica r WHERE r.recargaAtivada = :recargaAtivada")})
 public class RecargaAutomatica implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -149,19 +154,21 @@ public class RecargaAutomatica implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RecargaAutomatica)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        RecargaAutomatica other = (RecargaAutomatica) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RecargaAutomatica other = (RecargaAutomatica) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -169,7 +176,7 @@ public class RecargaAutomatica implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rafaelcarlos.positivo.model.RecargaAutomatica[ id=" + id + " ]";
+        return "RecargaAutomatica{" + "id=" + id + ", celular=" + celular + ", valor=" + valor + ", dia=" + dia + ", ddd=" + ddd + ", recargaAtivada=" + recargaAtivada + ", usuarioId=" + usuarioId + '}';
     }
-    
+
 }

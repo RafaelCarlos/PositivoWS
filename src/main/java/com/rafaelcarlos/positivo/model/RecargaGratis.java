@@ -6,6 +6,7 @@
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,11 +30,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "recarga_gratis")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name = "RecargaGratis.findAll", query = "SELECT r FROM RecargaGratis r"),
     @NamedQuery(name = "RecargaGratis.findById", query = "SELECT r FROM RecargaGratis r WHERE r.id = :id"),
     @NamedQuery(name = "RecargaGratis.findByCodigo", query = "SELECT r FROM RecargaGratis r WHERE r.codigo = :codigo")})
 public class RecargaGratis implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,19 +83,21 @@ public class RecargaGratis implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RecargaGratis)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        RecargaGratis other = (RecargaGratis) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RecargaGratis other = (RecargaGratis) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -98,7 +105,7 @@ public class RecargaGratis implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rafaelcarlos.positivo.model.RecargaGratis[ id=" + id + " ]";
+        return "RecargaGratis{" + "id=" + id + ", codigo=" + codigo + ", usuarioId=" + usuarioId + '}';
     }
-    
+
 }

@@ -8,6 +8,7 @@ package com.rafaelcarlos.positivo.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "boleto_carteira")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name = "BoletoCarteira.findAll", query = "SELECT b FROM BoletoCarteira b"),
     @NamedQuery(name = "BoletoCarteira.findById", query = "SELECT b FROM BoletoCarteira b WHERE b.id = :id"),
@@ -39,6 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "BoletoCarteira.findByConfirmacaoPagamento", query = "SELECT b FROM BoletoCarteira b WHERE b.confirmacaoPagamento = :confirmacaoPagamento"),
     @NamedQuery(name = "BoletoCarteira.findByDataEmissao", query = "SELECT b FROM BoletoCarteira b WHERE b.dataEmissao = :dataEmissao")})
 public class BoletoCarteira implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -133,19 +138,21 @@ public class BoletoCarteira implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BoletoCarteira)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        BoletoCarteira other = (BoletoCarteira) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final BoletoCarteira other = (BoletoCarteira) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -153,7 +160,7 @@ public class BoletoCarteira implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rafaelcarlos.positivo.model.BoletoCarteira[ id=" + id + " ]";
+        return "BoletoCarteira{" + "id=" + id + ", valorBoleto=" + valorBoleto + ", dataVencimento=" + dataVencimento + ", confirmacaoPagamento=" + confirmacaoPagamento + ", dataEmissao=" + dataEmissao + ", carteiraId=" + carteiraId + '}';
     }
-    
+
 }

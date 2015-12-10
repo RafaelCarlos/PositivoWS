@@ -7,6 +7,7 @@ package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +22,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,11 +33,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "recarga_cancelada")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name = "RecargaCancelada.findAll", query = "SELECT r FROM RecargaCancelada r"),
     @NamedQuery(name = "RecargaCancelada.findById", query = "SELECT r FROM RecargaCancelada r WHERE r.id = :id"),
     @NamedQuery(name = "RecargaCancelada.findByDataCancelamento", query = "SELECT r FROM RecargaCancelada r WHERE r.dataCancelamento = :dataCancelamento")})
 public class RecargaCancelada implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,19 +93,21 @@ public class RecargaCancelada implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 43 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RecargaCancelada)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        RecargaCancelada other = (RecargaCancelada) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final RecargaCancelada other = (RecargaCancelada) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -108,7 +115,7 @@ public class RecargaCancelada implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rafaelcarlos.positivo.model.RecargaCancelada[ id=" + id + " ]";
+        return "RecargaCancelada{" + "id=" + id + ", dataCancelamento=" + dataCancelamento + ", recargaId=" + recargaId + '}';
     }
-    
+
 }

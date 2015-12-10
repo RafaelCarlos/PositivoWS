@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -32,11 +30,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "carteira")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name = "Carteira.findAll", query = "SELECT c FROM Carteira c"),
     @NamedQuery(name = "Carteira.findById", query = "SELECT c FROM Carteira c WHERE c.id = :id"),
     @NamedQuery(name = "Carteira.findBySaldo", query = "SELECT c FROM Carteira c WHERE c.saldo = :saldo")})
 public class Carteira implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,19 +101,21 @@ public class Carteira implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Carteira)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Carteira other = (Carteira) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Carteira other = (Carteira) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -121,7 +123,7 @@ public class Carteira implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rafaelcarlos.positivo.model.Carteira[ id=" + id + " ]";
+        return "Carteira{" + "id=" + id + ", saldo=" + saldo + ", usuarioId=" + usuarioId + ", boletoCarteiraCollection=" + boletoCarteiraCollection + '}';
     }
-    
+
 }

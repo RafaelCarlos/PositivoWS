@@ -2,6 +2,7 @@ package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -254,19 +255,25 @@ public class Usuario implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 3;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        hash = 89 * hash + Objects.hashCode(this.idFacebook);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Usuario other = (Usuario) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.idFacebook, other.idFacebook)) {
             return false;
         }
         return true;
@@ -274,7 +281,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rafaelcarlos.positivo.model.Usuario[ id=" + id + " ]";
+        return "Usuario{" + "id=" + id + ", email=" + email + ", senha=" + senha + ", idFacebook=" + idFacebook + ", nome=" + nome + ", sobrenome=" + sobrenome + ", ativo=" + ativo + ", cartaoCreditoCollection=" + cartaoCreditoCollection + ", celularRecargaCollection=" + celularRecargaCollection + ", configuracaoCollection=" + configuracaoCollection + ", recargaGratisCollection=" + recargaGratisCollection + ", recargaAutomaticaCollection=" + recargaAutomaticaCollection + ", feedbackCollection=" + feedbackCollection + ", recomendadosCollection=" + recomendadosCollection + ", carteiraCollection=" + carteiraCollection + ", tipoUsuarioId=" + tipoUsuarioId + ", recargaCollection=" + recargaCollection + '}';
     }
 
 }

@@ -6,6 +6,7 @@
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +19,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -27,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "configuracao")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name = "Configuracao.findAll", query = "SELECT c FROM Configuracao c"),
     @NamedQuery(name = "Configuracao.findById", query = "SELECT c FROM Configuracao c WHERE c.id = :id"),
@@ -34,6 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Configuracao.findByEmailPromocional", query = "SELECT c FROM Configuracao c WHERE c.emailPromocional = :emailPromocional"),
     @NamedQuery(name = "Configuracao.findByBaixoSaldo", query = "SELECT c FROM Configuracao c WHERE c.baixoSaldo = :baixoSaldo")})
 public class Configuracao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -112,19 +117,21 @@ public class Configuracao implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Configuracao)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Configuracao other = (Configuracao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Configuracao other = (Configuracao) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -132,7 +139,7 @@ public class Configuracao implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rafaelcarlos.positivo.model.Configuracao[ id=" + id + " ]";
+        return "Configuracao{" + "id=" + id + ", notificacao=" + notificacao + ", emailPromocional=" + emailPromocional + ", baixoSaldo=" + baixoSaldo + ", usuarioId=" + usuarioId + '}';
     }
-    
+
 }
