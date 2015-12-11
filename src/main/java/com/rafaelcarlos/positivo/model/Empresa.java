@@ -1,6 +1,7 @@
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -110,6 +111,9 @@ public class Empresa implements Serializable {
     @Size(min = 1, max = 4)
     @Column(name = "email_empresa")
     private String emailEmpresa;
+
+    @Column(name = "mostrar_limite", precision = 5, scale = 2)
+    private BigDecimal mostrarLimite;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "produtoId")
     private Collection<Produto> produtoCollection;

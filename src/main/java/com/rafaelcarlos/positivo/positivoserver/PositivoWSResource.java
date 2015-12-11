@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rafaelcarlos.positivo.positivoserver;
 
 import javax.ws.rs.core.Context;
@@ -32,18 +27,22 @@ public class PositivoWSResource {
     }
 
     /**
-     * Retrieves representation of an instance of com.rafaelcarlos.positivo.positivoserver.PositivoWSResource
+     * Retrieves representation of an instance of
+     * com.rafaelcarlos.positivo.positivoserver.PositivoWSResource
+     *
      * @return an instance of java.lang.String
      */
+    @Path("retorno")
     @GET
     @Produces("application/xml")
     public String getXml() {
         //TODO return proper representation object
-        throw new UnsupportedOperationException();
+        return "Teste Webservice";
     }
 
     /**
      * PUT method for updating or creating an instance of PositivoWSResource
+     *
      * @param content representation for the resource
      * @return an HTTP response with content of the updated or created resource.
      */

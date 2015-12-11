@@ -35,8 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
-    @NamedQuery(name = "Produto.findAll" , query = "SELECT p FROM p" ),
-    @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :id")   
+    @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM p"),
+    @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :id")
 })
 public class Produto implements Serializable {
 
@@ -58,12 +58,6 @@ public class Produto implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "nome_produto")
     private String nomeProduto;
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 4)
-    @Column(name = "codigo_operadora")
-    private String codigoOperadora;
 
     @Basic(optional = false)
     @NotNull
@@ -121,11 +115,10 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public Produto(Integer id, int qtdProduto, String nomeProduto, String codigoOperadora, BigDecimal valorCompra, BigDecimal valorVenda, Integer validade, Integer modeloRecarga, BigDecimal valorMinimo, BigDecimal valorMaximo, BigDecimal valorVariavel, Date ultimaAtualizacao, Collection<Recarga> recargaCollection, Operadora operadoraId, Empresa empresaId) {
+    public Produto(Integer id, int qtdProduto, String nomeProduto, BigDecimal valorCompra, BigDecimal valorVenda, Integer validade, Integer modeloRecarga, BigDecimal valorMinimo, BigDecimal valorMaximo, BigDecimal valorVariavel, Date ultimaAtualizacao, Collection<Recarga> recargaCollection, Operadora operadoraId, Empresa empresaId) {
         this.id = id;
         this.qtdProduto = qtdProduto;
         this.nomeProduto = nomeProduto;
-        this.codigoOperadora = codigoOperadora;
         this.valorCompra = valorCompra;
         this.valorVenda = valorVenda;
         this.validade = validade;
@@ -161,14 +154,6 @@ public class Produto implements Serializable {
 
     public void setNomeProduto(String nomeProduto) {
         this.nomeProduto = nomeProduto;
-    }
-
-    public String getCodigoOperadora() {
-        return codigoOperadora;
-    }
-
-    public void setCodigoOperadora(String codigoOperadora) {
-        this.codigoOperadora = codigoOperadora;
     }
 
     public BigDecimal getValorCompra() {
@@ -261,8 +246,8 @@ public class Produto implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + Objects.hashCode(this.id);
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -283,7 +268,7 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return "Produto{" + "id=" + id + ", qtdProduto=" + qtdProduto + ", nomeProduto=" + nomeProduto + ", codigoOperadora=" + codigoOperadora + ", valorCompra=" + valorCompra + ", valorVenda=" + valorVenda + ", validade=" + validade + ", modeloRecarga=" + modeloRecarga + ", valorMinimo=" + valorMinimo + ", valorMaximo=" + valorMaximo + ", valorVariavel=" + valorVariavel + ", ultimaAtualizacao=" + ultimaAtualizacao + ", recargaCollection=" + recargaCollection + ", operadoraId=" + operadoraId + ", empresaId=" + empresaId + '}';
+        return "Produto{" + "id=" + id + ", qtdProduto=" + qtdProduto + ", nomeProduto=" + nomeProduto + ", valorCompra=" + valorCompra + ", valorVenda=" + valorVenda + ", validade=" + validade + ", modeloRecarga=" + modeloRecarga + ", valorMinimo=" + valorMinimo + ", valorMaximo=" + valorMaximo + ", valorVariavel=" + valorVariavel + ", ultimaAtualizacao=" + ultimaAtualizacao + ", recargaCollection=" + recargaCollection + ", operadoraId=" + operadoraId + ", empresaId=" + empresaId + '}';
     }
 
 }
