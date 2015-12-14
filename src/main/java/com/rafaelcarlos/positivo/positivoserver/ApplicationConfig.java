@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rafaelcarlos.positivo.positivoserver;
 
 import java.util.Set;
@@ -12,7 +7,7 @@ import javax.ws.rs.core.Application;
  *
  * @author rafaellcarloss
  */
-@javax.ws.rs.ApplicationPath("webresources")
+@javax.ws.rs.ApplicationPath("positivoservice")
 public class ApplicationConfig extends Application {
 
     @Override
@@ -23,13 +18,12 @@ public class ApplicationConfig extends Application {
     }
 
     /**
-     * Do not modify addRestResourceClasses() method.
-     * It is automatically populated with
-     * all resources defined in the project.
-     * If required, comment out calling this method in getClasses().
+     * Do not modify addRestResourceClasses() method. It is automatically
+     * populated with all resources defined in the project. If required, comment
+     * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.rafaelcarlos.positivo.positivoserver.PositivoWSResource.class);
     }
-    
+
 }
