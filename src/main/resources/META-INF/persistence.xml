@@ -3,6 +3,12 @@
     <persistence-unit name="positivoWS" transaction-type="JTA">
         <jta-data-source>conexao</jta-data-source>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <property name = "javax.persistence.jdbc.driver" value ="com.mysql.jdbc.Driver"/>
+        <property name = "javax.persistence.jdbc.url" value = "jdbc:mysql://localhost:3306/dbRecargaApp" />
+        <property name = "javax.persistence.jdbc.user" value = "root" />
+        <property name = "javax.persistence.jdbc.password" value = "sequela"/>
+        
+        <property name = "hibernate.hbm2ddl.auto" value ="update"/> 
         <properties/>
     </persistence-unit>
 </persistence>
