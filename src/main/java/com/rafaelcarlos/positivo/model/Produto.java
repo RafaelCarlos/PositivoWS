@@ -95,6 +95,8 @@ public class Produto implements Serializable {
     private BigDecimal valorVariavel;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    @Column(name = "ultima_atualizacao")
     private Date ultimaAtualizacao;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "produtoId")

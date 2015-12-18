@@ -1,47 +1,63 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.rafaelcarlos.positivo.positivoserver;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 
 /**
  * REST Web Service
  *
  * @author rafaellcarloss
  */
-@Path("positivows")
-public class PositivoWSResource {
+@Path("recarga")
+public class RecargaWS {
 
     @Context
     private UriInfo context;
 
     /**
-     * Creates a new instance of PositivoWSResource
+     * Creates a new instance of RecargaWS
      */
-    public PositivoWSResource() {
+    public RecargaWS() {
     }
 
     /**
      * Retrieves representation of an instance of
-     * com.rafaelcarlos.positivo.positivoserver.PositivoWSResource
+     * com.rafaelcarlos.positivo.positivoserver.RecargaWS
      *
      * @return an instance of java.lang.String
      */
-    @Path("retorno")
     @GET
     @Produces("application/xml")
     public String getXml() {
         //TODO return proper representation object
-        return "Teste Webservice";
+        throw new UnsupportedOperationException();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_XML)
+    public Request recarrega() {
+
+        return null;
+
     }
 
     /**
-     * PUT method for updating or creating an instance of PositivoWSResource
+     * PUT method for updating or creating an instance of RecargaWS
      *
      * @param content representation for the resource
      * @return an HTTP response with content of the updated or created resource.

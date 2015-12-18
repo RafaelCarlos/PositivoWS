@@ -6,14 +6,20 @@
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -53,6 +59,14 @@ public class Operadora implements Serializable {
     @Column(name = "codigo_operadora")
     private String codigoOperadora;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    @Column(name = "ultima_atualizacao_operadora")
+    private Date ultimaAtualizacaoOperadora;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "operadoraId")
+    private Collection<Produto> produtoCollection;
+
     public Operadora() {
     }
 
@@ -60,10 +74,12 @@ public class Operadora implements Serializable {
         this.id = id;
     }
 
-    public Operadora(String id, String nomeOperadora, String codigoOperadora) {
+    public Operadora(String id, String nomeOperadora, String codigoOperadora, Date ultimaAtualizacaoOperadora, Collection<Produto> produtoCollection) {
         this.id = id;
         this.nomeOperadora = nomeOperadora;
         this.codigoOperadora = codigoOperadora;
+        this.ultimaAtualizacaoOperadora = ultimaAtualizacaoOperadora;
+        this.produtoCollection = produtoCollection;
     }
 
     public String getId() {
@@ -90,31 +106,25 @@ public class Operadora implements Serializable {
         this.codigoOperadora = codigoOperadora;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 31 * hash + Objects.hashCode(this.id);
-        return hash;
+    public Date getUltimaAtualizacaoOperadora() {
+        return ultimaAtualizacaoOperadora;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Operadora other = (Operadora) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+    public void setUltimaAtualizacaoOperadora(Date ultimaAtualizacaoOperadora) {
+        this.ultimaAtualizacaoOperadora = ultimaAtualizacaoOperadora;
+    }
+
+    public Collection<Produto> getProdutoCollection() {
+        return produtoCollection;
+    }
+
+    public void setProdutoCollection(Collection<Produto> produtoCollection) {
+        this.produtoCollection = produtoCollection;
     }
 
     @Override
     public String toString() {
-        return "Operadora{" + "id=" + id + ", nomeOperadora=" + nomeOperadora + ", codigoOperadora=" + codigoOperadora + '}';
+        return "Operadora{" + "id=" + id + ", nomeOperadora=" + nomeOperadora + ", codigoOperadora=" + codigoOperadora + ", ultimaAtualizacaoOperadora=" + ultimaAtualizacaoOperadora + ", produtoCollection=" + produtoCollection + '}';
     }
 
 }
