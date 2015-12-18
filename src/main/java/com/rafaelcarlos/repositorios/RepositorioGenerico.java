@@ -60,8 +60,8 @@ public class RepositorioGenerico<PK, T> implements Serializable {
      *
      * @param jpql
      * @param params
-     * @return Método responsável por retornar um select com parâmetros.
-     * Retorna uma consulta personalizada.
+     * @return Método responsável por retornar um select com parâmetros. Retorna
+     * uma consulta personalizada.
      */
     public List<T> find(String jpql, Object... params) {
         entityManager.getTransaction().begin();
@@ -77,6 +77,24 @@ public class RepositorioGenerico<PK, T> implements Serializable {
         entityManager.close();
 
         return entities;
+    }
+
+    /**
+     * Metodo responsavel por retornar a quantidade de registros de uma tabela.
+     *
+     * @return
+     */
+    public long count() {
+        entityManager.getTransaction().begin();
+
+        Query query = entityManager.createQuery("select count(c) from " + classePersistente.getSimpleName() + " c");
+
+        long count = (Long) query.getSingleResult();
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return count;
     }
 
     public boolean salvar(T entity) {
