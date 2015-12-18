@@ -7,6 +7,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,6 +54,29 @@ public class RepositorioGenerico<PK, T> implements Serializable {
 
     public T getPorId(PK pk) {
         return (T) entityManager.find(classePersistente, pk);
+    }
+
+    /**
+     *
+     * @param jpql
+     * @param params
+     * @return Método responsável por retornar um select com parâmetros.
+     * Retorna uma consulta personalizada.
+     */
+    public List<T> find(String jpql, Object... params) {
+        entityManager.getTransaction().begin();
+        Query query = entityManager.createQuery(jpql);
+
+        for (int i = 0; i < params.length; i++) {
+            query.setParameter(i + 1, params[i]);
+        }
+
+        List<T> entities = query.getResultList();
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
+        return entities;
     }
 
     public boolean salvar(T entity) {
