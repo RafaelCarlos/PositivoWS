@@ -1,5 +1,7 @@
 package com.rafaelcarlos.positivo.positivoserver;
 
+import java.io.Serializable;
+import javax.inject.Named;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -27,7 +29,9 @@ public class TipoUsuarioRest {
     }
 
     /**
-     * Retrieves representation of an instance of com.rafaelcarlos.positivo.positivoserver.TipoUsuarioRest
+     * Retrieves representation of an instance of
+     * com.rafaelcarlos.positivo.positivoserver.TipoUsuarioRest
+     *
      * @return an instance of java.lang.String
      */
     @GET
@@ -39,6 +43,7 @@ public class TipoUsuarioRest {
 
     /**
      * PUT method for updating or creating an instance of TipoUsuarioRest
+     *
      * @param content representation for the resource
      * @return an HTTP response with content of the updated or created resource.
      */

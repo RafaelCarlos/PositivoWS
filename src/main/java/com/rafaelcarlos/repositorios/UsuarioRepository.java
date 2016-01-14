@@ -6,13 +6,16 @@
 package com.rafaelcarlos.repositorios;
 
 import com.rafaelcarlos.positivo.model.Usuario;
+import java.io.Serializable;
 import javax.persistence.EntityManager;
 
 /**
  *
  * @author rafaellcarloss
  */
-public class UsuarioRepository extends RepositorioGenerico<Integer, Usuario> {
+public class UsuarioRepository extends RepositorioGenerico<Integer, Usuario> implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private RepositorioGenerico usuarioRepositorio;
 

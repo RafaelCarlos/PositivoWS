@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="positivoWS" transaction-type="JTA">
-    <jta-data-source>conexao</jta-data-source>
-    <class>com.rafaelcarlos.positivo.model.BoletoCarteira</class>
-    <class>com.rafaelcarlos.positivo.model.CartaoCredito</class>
-    <class>com.rafaelcarlos.positivo.model.Carteira</class>
-    <class>com.rafaelcarlos.positivo.model.CelularRecarga</class>
-    <class>com.rafaelcarlos.positivo.model.Configuracao</class>
-    <class>com.rafaelcarlos.positivo.model.Distribuidora</class>
-    <class>com.rafaelcarlos.positivo.model.Empresa</class>
-    <class>com.rafaelcarlos.positivo.model.Feedback</class>
-    <class>com.rafaelcarlos.positivo.model.Operadora</class>
-    <class>com.rafaelcarlos.positivo.model.Produto</class>
-    <class>com.rafaelcarlos.positivo.model.Recarga</class>
-    <class>com.rafaelcarlos.positivo.model.RecargaAutomatica</class>
-    <class>com.rafaelcarlos.positivo.model.RecargaCancelada</class>
-    <class>com.rafaelcarlos.positivo.model.RecargaGratis</class>
-    <class>com.rafaelcarlos.positivo.model.Recomendados</class>
-    <class>com.rafaelcarlos.positivo.model.TipoUsuario</class>
-    <class>com.rafaelcarlos.positivo.model.Usuario</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
-    <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-    <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dbRecargaApp"/>
-    <property name="javax.persistence.jdbc.user" value="root"/>
-    <property name="javax.persistence.jdbc.password" value="sequela"/>
-    <property name="hibernate.hbm2ddl.auto" value="update"/>
-    <properties/>
-  </persistence-unit>
+    <persistence-unit name="positivoWS" transaction-type="RESOURCE_LOCAL">
+        <jta-data-source>conexao</jta-data-source>
+        <class>com.rafaelcarlos.positivo.model.BoletoCarteira</class>
+        <class>com.rafaelcarlos.positivo.model.CartaoCredito</class>
+        <class>com.rafaelcarlos.positivo.model.Carteira</class>
+        <class>com.rafaelcarlos.positivo.model.CelularRecarga</class>
+        <class>com.rafaelcarlos.positivo.model.Configuracao</class>
+        <class>com.rafaelcarlos.positivo.model.Distribuidora</class>
+        <class>com.rafaelcarlos.positivo.model.Empresa</class>
+        <class>com.rafaelcarlos.positivo.model.Feedback</class>
+        <class>com.rafaelcarlos.positivo.model.Operadora</class>
+        <class>com.rafaelcarlos.positivo.model.Produto</class>
+        <class>com.rafaelcarlos.positivo.model.Recarga</class>
+        <class>com.rafaelcarlos.positivo.model.RecargaAutomatica</class>
+        <class>com.rafaelcarlos.positivo.model.RecargaCancelada</class>
+        <class>com.rafaelcarlos.positivo.model.RecargaGratis</class>
+        <class>com.rafaelcarlos.positivo.model.Recomendados</class>
+        <class>com.rafaelcarlos.positivo.model.TipoUsuario</class>
+        <class>com.rafaelcarlos.positivo.model.Usuario</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dbRecargaApp"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="sequela"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>			
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
 </persistence>

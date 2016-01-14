@@ -47,7 +47,7 @@ public class Operadora implements Serializable {
     @NotNull
     @Size(min = 1, max = 3)
     @Column(name = "id")
-    private String id;
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
@@ -70,11 +70,11 @@ public class Operadora implements Serializable {
     public Operadora() {
     }
 
-    public Operadora(String id) {
+    public Operadora(Integer id) {
         this.id = id;
     }
 
-    public Operadora(String id, String nomeOperadora, String codigoOperadora, Date ultimaAtualizacaoOperadora, Collection<Produto> produtoCollection) {
+    public Operadora(Integer id, String nomeOperadora, String codigoOperadora, Date ultimaAtualizacaoOperadora, Collection<Produto> produtoCollection) {
         this.id = id;
         this.nomeOperadora = nomeOperadora;
         this.codigoOperadora = codigoOperadora;
@@ -82,11 +82,11 @@ public class Operadora implements Serializable {
         this.produtoCollection = produtoCollection;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -120,6 +120,28 @@ public class Operadora implements Serializable {
 
     public void setProdutoCollection(Collection<Produto> produtoCollection) {
         this.produtoCollection = produtoCollection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Operadora other = (Operadora) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

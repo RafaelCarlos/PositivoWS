@@ -23,8 +23,10 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(com.rafaelcarlos.positivo.positivoserver.OperadoraWSResource.class);
         resources.add(com.rafaelcarlos.positivo.positivoserver.PositivoRest.class);
         resources.add(com.rafaelcarlos.positivo.positivoserver.PositivoWSResource.class);
+        resources.add(com.rafaelcarlos.positivo.positivoserver.ProdutoWSResource.class);
         resources.add(com.rafaelcarlos.positivo.positivoserver.RecargaWS.class);
         resources.add(com.rafaelcarlos.positivo.positivoserver.TipoUsuarioRest.class);
         resources.add(com.rafaelcarlos.positivo.positivoserver.UsuarioRest.class);

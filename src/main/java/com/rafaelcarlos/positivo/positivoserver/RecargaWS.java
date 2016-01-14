@@ -5,6 +5,7 @@
  */
 package com.rafaelcarlos.positivo.positivoserver;
 
+import com.rafaelcarlos.positivo.model.Usuario;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -14,8 +15,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
+import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service
@@ -40,17 +44,32 @@ public class RecargaWS {
      *
      * @return an instance of java.lang.String
      */
+//    @GET
+//    @Produces("application/json")
+//    public String getXml() {
+//        //TODO return proper representation object
+//        return "Olá!";
+//    }
     @GET
-    @Produces("application/xml")
-    public String getXml() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
+    @Produces("application/json")
+    public Usuario exibe() {
+        Usuario usuario = new Usuario();
+        usuario.setId(1);
+        usuario.setNome("Rafael");
+        usuario.setEmail("shanglangjunior@hotmail.com");
+        usuario.setAtivo(true);
+
+        return usuario;
+
     }
 
     @POST
     @Produces(MediaType.APPLICATION_XML)
     @Consumes(MediaType.APPLICATION_XML)
     public Request recarrega() {
+
+        Client client = ClientBuilder.newClient();
+        Response resposta = client.target("https://www.cellcard.com.br/teste/integracao_xml.php").request().get();
 
         return null;
 
