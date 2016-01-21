@@ -1,10 +1,14 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,9 +26,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,82 +36,75 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "produto")
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
-    @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM p"),
-    @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :id")
-})
+    @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
+    @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :id"),
+    @NamedQuery(name = "Produto.findByQtdProduto", query = "SELECT p FROM Produto p WHERE p.qtdProduto = :qtdProduto"),
+    @NamedQuery(name = "Produto.findByNomeProduto", query = "SELECT p FROM Produto p WHERE p.nomeProduto = :nomeProduto"),
+    @NamedQuery(name = "Produto.findByValorCompra", query = "SELECT p FROM Produto p WHERE p.valorCompra = :valorCompra"),
+    @NamedQuery(name = "Produto.findByValorVenda", query = "SELECT p FROM Produto p WHERE p.valorVenda = :valorVenda"),
+    @NamedQuery(name = "Produto.findByValidade", query = "SELECT p FROM Produto p WHERE p.validade = :validade"),
+    @NamedQuery(name = "Produto.findByModeloRecarga", query = "SELECT p FROM Produto p WHERE p.modeloRecarga = :modeloRecarga"),
+    @NamedQuery(name = "Produto.findByValorMinimo", query = "SELECT p FROM Produto p WHERE p.valorMinimo = :valorMinimo"),
+    @NamedQuery(name = "Produto.findByValorMaximo", query = "SELECT p FROM Produto p WHERE p.valorMaximo = :valorMaximo"),
+    @NamedQuery(name = "Produto.findByValorVariavel", query = "SELECT p FROM Produto p WHERE p.valorVariavel = :valorVariavel"),
+    @NamedQuery(name = "Produto.findByUlltimaAtualizacao", query = "SELECT p FROM Produto p WHERE p.ulltimaAtualizacao = :ulltimaAtualizacao")})
 public class Produto implements Serializable {
-
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-
     @Basic(optional = false)
     @NotNull
     @Column(name = "qtd_produto")
     private int qtdProduto;
-
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "nome_produto")
     private String nomeProduto;
-
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor_compra", precision = 5, scale = 2)
+    @Column(name = "valor_compra")
     private BigDecimal valorCompra;
-
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor_venda", precision = 5, scale = 2)
+    @Column(name = "valor_venda")
     private BigDecimal valorVenda;
-
     @Basic(optional = false)
     @NotNull
-    @Column(name = "validade", length = 3)
-    private Integer validade;
-
-    @Basic(optional = false)
-    @NotNull
+    @Column(name = "validade")
+    private int validade;
     @Column(name = "modelo_recarga")
     private Integer modeloRecarga;
-
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor_minimo", precision = 5, scale = 2)
+    @Column(name = "valor_minimo")
     private BigDecimal valorMinimo;
-
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor_maximo", precision = 5, scale = 2)
+    @Column(name = "valor_maximo")
     private BigDecimal valorMaximo;
-
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor_variavel", precision = 5, scale = 2)
+    @Column(name = "valor_variavel")
     private BigDecimal valorVariavel;
-
-    @Temporal(TemporalType.TIMESTAMP)
+    @Basic(optional = false)
     @NotNull
-    @Column(name = "ultima_atualizacao")
-    private Date ultimaAtualizacao;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "produtoId")
-    private Collection<Recarga> recargaCollection;
-
-    @JoinColumn(name = "operadora_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Operadora operadoraId;
-
+    @Column(name = "ulltima_atualizacao")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ulltimaAtualizacao;
     @JoinColumn(name = "empresa_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Empresa empresaId;
+    @JoinColumn(name = "operadora_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Operadora operadoraId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "produtoId")
+    private Collection<Recarga> recargaCollection;
 
     public Produto() {
     }
@@ -117,21 +113,17 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public Produto(Integer id, int qtdProduto, String nomeProduto, BigDecimal valorCompra, BigDecimal valorVenda, Integer validade, Integer modeloRecarga, BigDecimal valorMinimo, BigDecimal valorMaximo, BigDecimal valorVariavel, Date ultimaAtualizacao, Collection<Recarga> recargaCollection, Operadora operadoraId, Empresa empresaId) {
+    public Produto(Integer id, int qtdProduto, String nomeProduto, BigDecimal valorCompra, BigDecimal valorVenda, int validade, BigDecimal valorMinimo, BigDecimal valorMaximo, BigDecimal valorVariavel, Date ulltimaAtualizacao) {
         this.id = id;
         this.qtdProduto = qtdProduto;
         this.nomeProduto = nomeProduto;
         this.valorCompra = valorCompra;
         this.valorVenda = valorVenda;
         this.validade = validade;
-        this.modeloRecarga = modeloRecarga;
         this.valorMinimo = valorMinimo;
         this.valorMaximo = valorMaximo;
         this.valorVariavel = valorVariavel;
-        this.ultimaAtualizacao = ultimaAtualizacao;
-        this.recargaCollection = recargaCollection;
-        this.operadoraId = operadoraId;
-        this.empresaId = empresaId;
+        this.ulltimaAtualizacao = ulltimaAtualizacao;
     }
 
     public Integer getId() {
@@ -174,11 +166,11 @@ public class Produto implements Serializable {
         this.valorVenda = valorVenda;
     }
 
-    public Integer getValidade() {
+    public int getValidade() {
         return validade;
     }
 
-    public void setValidade(Integer validade) {
+    public void setValidade(int validade) {
         this.validade = validade;
     }
 
@@ -214,28 +206,12 @@ public class Produto implements Serializable {
         this.valorVariavel = valorVariavel;
     }
 
-    public Date getUltimaAtualizacao() {
-        return ultimaAtualizacao;
+    public Date getUlltimaAtualizacao() {
+        return ulltimaAtualizacao;
     }
 
-    public void setUltimaAtualizacao(Date ultimaAtualizacao) {
-        this.ultimaAtualizacao = ultimaAtualizacao;
-    }
-
-    public Collection<Recarga> getRecargaCollection() {
-        return recargaCollection;
-    }
-
-    public void setRecargaCollection(Collection<Recarga> recargaCollection) {
-        this.recargaCollection = recargaCollection;
-    }
-
-    public Operadora getOperadoraId() {
-        return operadoraId;
-    }
-
-    public void setOperadoraId(Operadora operadoraId) {
-        this.operadoraId = operadoraId;
+    public void setUlltimaAtualizacao(Date ulltimaAtualizacao) {
+        this.ulltimaAtualizacao = ulltimaAtualizacao;
     }
 
     public Empresa getEmpresaId() {
@@ -246,23 +222,38 @@ public class Produto implements Serializable {
         this.empresaId = empresaId;
     }
 
+    public Operadora getOperadoraId() {
+        return operadoraId;
+    }
+
+    public void setOperadoraId(Operadora operadoraId) {
+        this.operadoraId = operadoraId;
+    }
+
+    @XmlTransient
+    public Collection<Recarga> getRecargaCollection() {
+        return recargaCollection;
+    }
+
+    public void setRecargaCollection(Collection<Recarga> recargaCollection) {
+        this.recargaCollection = recargaCollection;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Produto)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Produto other = (Produto) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        Produto other = (Produto) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -270,7 +261,7 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return "Produto{" + "id=" + id + ", qtdProduto=" + qtdProduto + ", nomeProduto=" + nomeProduto + ", valorCompra=" + valorCompra + ", valorVenda=" + valorVenda + ", validade=" + validade + ", modeloRecarga=" + modeloRecarga + ", valorMinimo=" + valorMinimo + ", valorMaximo=" + valorMaximo + ", valorVariavel=" + valorVariavel + ", ultimaAtualizacao=" + ultimaAtualizacao + ", recargaCollection=" + recargaCollection + ", operadoraId=" + operadoraId + ", empresaId=" + empresaId + '}';
+        return "com.rafaelcarlos.positivo.model.Produto[ id=" + id + " ]";
     }
-
+    
 }

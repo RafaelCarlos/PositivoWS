@@ -29,16 +29,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author rafaellcarloss
  */
 @Entity
-@Table(name = "boleto_carteira")
+@Table(name = "boleto_empresa")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "BoletoCarteira.findAll", query = "SELECT b FROM BoletoCarteira b"),
-    @NamedQuery(name = "BoletoCarteira.findById", query = "SELECT b FROM BoletoCarteira b WHERE b.id = :id"),
-    @NamedQuery(name = "BoletoCarteira.findByValorBoleto", query = "SELECT b FROM BoletoCarteira b WHERE b.valorBoleto = :valorBoleto"),
-    @NamedQuery(name = "BoletoCarteira.findByDataVencimento", query = "SELECT b FROM BoletoCarteira b WHERE b.dataVencimento = :dataVencimento"),
-    @NamedQuery(name = "BoletoCarteira.findByConfirmacaoPagamento", query = "SELECT b FROM BoletoCarteira b WHERE b.confirmacaoPagamento = :confirmacaoPagamento"),
-    @NamedQuery(name = "BoletoCarteira.findByDataEmissao", query = "SELECT b FROM BoletoCarteira b WHERE b.dataEmissao = :dataEmissao")})
-public class BoletoCarteira implements Serializable {
+    @NamedQuery(name = "BoletoEmpresa.findAll", query = "SELECT b FROM BoletoEmpresa b"),
+    @NamedQuery(name = "BoletoEmpresa.findById", query = "SELECT b FROM BoletoEmpresa b WHERE b.id = :id"),
+    @NamedQuery(name = "BoletoEmpresa.findByValorBoleto", query = "SELECT b FROM BoletoEmpresa b WHERE b.valorBoleto = :valorBoleto"),
+    @NamedQuery(name = "BoletoEmpresa.findByDataVencimento", query = "SELECT b FROM BoletoEmpresa b WHERE b.dataVencimento = :dataVencimento"),
+    @NamedQuery(name = "BoletoEmpresa.findByStatus", query = "SELECT b FROM BoletoEmpresa b WHERE b.status = :status"),
+    @NamedQuery(name = "BoletoEmpresa.findByDataEmissao", query = "SELECT b FROM BoletoEmpresa b WHERE b.dataEmissao = :dataEmissao")})
+public class BoletoEmpresa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,29 +58,29 @@ public class BoletoCarteira implements Serializable {
     private Date dataVencimento;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "confirmacao_pagamento")
-    private boolean confirmacaoPagamento;
+    @Column(name = "status")
+    private boolean status;
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_emissao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataEmissao;
-    @JoinColumn(name = "carteira_id", referencedColumnName = "id")
+    @JoinColumn(name = "empresa_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Carteira carteiraId;
+    private Empresa empresaId;
 
-    public BoletoCarteira() {
+    public BoletoEmpresa() {
     }
 
-    public BoletoCarteira(Integer id) {
+    public BoletoEmpresa(Integer id) {
         this.id = id;
     }
 
-    public BoletoCarteira(Integer id, BigDecimal valorBoleto, Date dataVencimento, boolean confirmacaoPagamento, Date dataEmissao) {
+    public BoletoEmpresa(Integer id, BigDecimal valorBoleto, Date dataVencimento, boolean status, Date dataEmissao) {
         this.id = id;
         this.valorBoleto = valorBoleto;
         this.dataVencimento = dataVencimento;
-        this.confirmacaoPagamento = confirmacaoPagamento;
+        this.status = status;
         this.dataEmissao = dataEmissao;
     }
 
@@ -108,12 +108,12 @@ public class BoletoCarteira implements Serializable {
         this.dataVencimento = dataVencimento;
     }
 
-    public boolean getConfirmacaoPagamento() {
-        return confirmacaoPagamento;
+    public boolean getStatus() {
+        return status;
     }
 
-    public void setConfirmacaoPagamento(boolean confirmacaoPagamento) {
-        this.confirmacaoPagamento = confirmacaoPagamento;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public Date getDataEmissao() {
@@ -124,12 +124,12 @@ public class BoletoCarteira implements Serializable {
         this.dataEmissao = dataEmissao;
     }
 
-    public Carteira getCarteiraId() {
-        return carteiraId;
+    public Empresa getEmpresaId() {
+        return empresaId;
     }
 
-    public void setCarteiraId(Carteira carteiraId) {
-        this.carteiraId = carteiraId;
+    public void setEmpresaId(Empresa empresaId) {
+        this.empresaId = empresaId;
     }
 
     @Override
@@ -142,10 +142,10 @@ public class BoletoCarteira implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BoletoCarteira)) {
+        if (!(object instanceof BoletoEmpresa)) {
             return false;
         }
-        BoletoCarteira other = (BoletoCarteira) object;
+        BoletoEmpresa other = (BoletoEmpresa) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -154,7 +154,6 @@ public class BoletoCarteira implements Serializable {
 
     @Override
     public String toString() {
-        return "BoletoCarteira{" + "id=" + id + ", valorBoleto=" + valorBoleto + ", dataVencimento=" + dataVencimento + ", confirmacaoPagamento=" + confirmacaoPagamento + ", dataEmissao=" + dataEmissao + ", carteiraId=" + carteiraId + '}';
+        return "BoletoEmpresa{" + "id=" + id + ", valorBoleto=" + valorBoleto + ", dataVencimento=" + dataVencimento + ", status=" + status + ", dataEmissao=" + dataEmissao + ", empresaId=" + empresaId + '}';
     }
-
 }

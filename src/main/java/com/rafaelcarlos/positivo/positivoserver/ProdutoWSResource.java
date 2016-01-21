@@ -6,6 +6,7 @@
 package com.rafaelcarlos.positivo.positivoserver;
 
 import com.rafaelcarlos.positivo.model.Produto;
+import com.rafaelcarlos.positivo.model.Usuario;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -18,9 +19,12 @@ import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.POST;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service
@@ -43,22 +47,40 @@ public class ProdutoWSResource {
     @Produces(MediaType.APPLICATION_XML)
     @Consumes(MediaType.APPLICATION_XML)
     @Path("listaproduto")
-    public Produto requesProduto() {
-        Produto produto = new Produto();
+    public void requesProduto() {
+
+        Usuario user = new Usuario();
+        user.setId(1);
+        user.setNome("eduardo");
+        user.setSenha("1234");
+        user.setIdFacebook("Rua abc");
+        user.setEmail("abc@abc.com");
 
         Client client = ClientBuilder.newClient();
 
-        WebTarget target = client.target("https://www.cellcard.com.br/teste/integracao_xml.php");
+        WebTarget webTarget = client.target("https://www.cellcard.com.br/teste/integracao_xml.php");
+        WebTarget resourceWebTarget = webTarget.path("teste");
 
-        Form form = new Form();
-        form.param("id", produto.getId().toString());
-        
-        MyJAXBBean bean =
-target.request(MediaType.APPLICATION_JSON_TYPE)
-    .post(Entity.entity(form,MediaType.APPLICATION_FORM_URLENCODED_TYPE),
-        MyJAXBBean.class);
-        
-        return produto;
+        WebTarget deleteWeb = resourceWebTarget.path("integracao_xml.php");
+        Invocation.Builder deleteInvocationBuilder = webTarget.request();
+        Response putResponse = deleteInvocationBuilder.put(Entity.entity(user, MediaType.APPLICATION_XML_TYPE));
+
+        System.out.println(putResponse.getStatus());
+        System.out.println(putResponse.readEntity(String.class));
+//        
+//        Produto produto = new Produto();
+//        
+//        StringBuilder parametros = new StringBuilder();
+//        parametros.append("");
+//        
+//        Client client = ClientBuilder.newClient();
+//
+//        WebTarget target = client.target("https://www.cellcard.com.br/teste/integracao_xml.php");
+//
+//        String toReturn = target.request().get(String.class);
+//        System.out.println("Resultado - " + toReturn);
+
+//        return toReturn;
     }
 
     /**
@@ -71,7 +93,7 @@ target.request(MediaType.APPLICATION_JSON_TYPE)
     @Produces("application/xml")
     public String getXml() {
         //TODO return proper representation object
-        throw new UnsupportedOperationException();
+        return "oi";
     }
 
     /**

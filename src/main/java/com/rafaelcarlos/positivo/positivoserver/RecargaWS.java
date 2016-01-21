@@ -51,15 +51,25 @@ public class RecargaWS {
 //        return "Olá!";
 //    }
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_XML)
     public Usuario exibe() {
+
+        StringBuilder parametros = new StringBuilder();
+        
+        Request request ;
+        
         Usuario usuario = new Usuario();
         usuario.setId(1);
         usuario.setNome("Rafael");
         usuario.setEmail("shanglangjunior@hotmail.com");
         usuario.setAtivo(true);
 
+        parametros.append(usuario.getId());
+        parametros.append(usuario.getNome());
+        System.out.println("Nome " + parametros);
+
         return usuario;
+        
 
     }
 

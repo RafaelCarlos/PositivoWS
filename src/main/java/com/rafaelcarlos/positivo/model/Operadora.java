@@ -8,11 +8,12 @@ package com.rafaelcarlos.positivo.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,9 +23,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,19 +33,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "operadora")
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name = "Operadora.findAll", query = "SELECT o FROM Operadora o"),
     @NamedQuery(name = "Operadora.findById", query = "SELECT o FROM Operadora o WHERE o.id = :id"),
     @NamedQuery(name = "Operadora.findByNomeOperadora", query = "SELECT o FROM Operadora o WHERE o.nomeOperadora = :nomeOperadora"),
-    @NamedQuery(name = "Operadora.findByCodigoOperadora", query = "SELECT o FROM Operadora o WHERE o.codigoOperadora = :codigoOperadora")})
+    @NamedQuery(name = "Operadora.findByCodigoOperadora", query = "SELECT o FROM Operadora o WHERE o.codigoOperadora = :codigoOperadora"),
+    @NamedQuery(name = "Operadora.findByUltimaAtualizacaoOperadora", query = "SELECT o FROM Operadora o WHERE o.ultimaAtualizacaoOperadora = :ultimaAtualizacaoOperadora")})
 public class Operadora implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3)
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -58,12 +56,11 @@ public class Operadora implements Serializable {
     @Size(min = 1, max = 4)
     @Column(name = "codigo_operadora")
     private String codigoOperadora;
-
-    @Temporal(TemporalType.TIMESTAMP)
+    @Basic(optional = false)
     @NotNull
     @Column(name = "ultima_atualizacao_operadora")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date ultimaAtualizacaoOperadora;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "operadoraId")
     private Collection<Produto> produtoCollection;
 
@@ -74,12 +71,11 @@ public class Operadora implements Serializable {
         this.id = id;
     }
 
-    public Operadora(Integer id, String nomeOperadora, String codigoOperadora, Date ultimaAtualizacaoOperadora, Collection<Produto> produtoCollection) {
+    public Operadora(Integer id, String nomeOperadora, String codigoOperadora, Date ultimaAtualizacaoOperadora) {
         this.id = id;
         this.nomeOperadora = nomeOperadora;
         this.codigoOperadora = codigoOperadora;
         this.ultimaAtualizacaoOperadora = ultimaAtualizacaoOperadora;
-        this.produtoCollection = produtoCollection;
     }
 
     public Integer getId() {
@@ -114,6 +110,7 @@ public class Operadora implements Serializable {
         this.ultimaAtualizacaoOperadora = ultimaAtualizacaoOperadora;
     }
 
+    @XmlTransient
     public Collection<Produto> getProdutoCollection() {
         return produtoCollection;
     }
@@ -124,21 +121,19 @@ public class Operadora implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 13 * hash + Objects.hashCode(this.id);
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Operadora)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Operadora other = (Operadora) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        Operadora other = (Operadora) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -146,7 +141,7 @@ public class Operadora implements Serializable {
 
     @Override
     public String toString() {
-        return "Operadora{" + "id=" + id + ", nomeOperadora=" + nomeOperadora + ", codigoOperadora=" + codigoOperadora + ", ultimaAtualizacaoOperadora=" + ultimaAtualizacaoOperadora + ", produtoCollection=" + produtoCollection + '}';
+        return "com.rafaelcarlos.positivo.model.Operadora[ id=" + id + " ]";
     }
-
+    
 }

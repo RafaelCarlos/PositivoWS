@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
@@ -165,7 +170,7 @@ public class CartaoCredito implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rafaelcarlos.positivo.model.CartaoCredito[ id=" + id + " ]";
+        return "CartaoCredito{" + "id=" + id + ", numeroCartao=" + numeroCartao + ", nomeTitular=" + nomeTitular + ", codigoSeguranca=" + codigoSeguranca + ", validade=" + validade + ", cpf=" + cpf + ", usuarioId=" + usuarioId + '}';
     }
 
 }

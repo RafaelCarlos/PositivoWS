@@ -6,8 +6,9 @@
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,10 +16,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -44,6 +47,8 @@ public class Distribuidora implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "nome_distribuidora")
     private String nomeDistribuidora;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "distribuidoraId")
+    private Collection<Empresa> empresaCollection;
 
     public Distribuidora() {
     }
@@ -73,23 +78,30 @@ public class Distribuidora implements Serializable {
         this.nomeDistribuidora = nomeDistribuidora;
     }
 
+    @XmlTransient
+    public Collection<Empresa> getEmpresaCollection() {
+        return empresaCollection;
+    }
+
+    public void setEmpresaCollection(Collection<Empresa> empresaCollection) {
+        this.empresaCollection = empresaCollection;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + Objects.hashCode(this.id);
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Distribuidora)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Distribuidora other = (Distribuidora) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        Distribuidora other = (Distribuidora) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -97,7 +109,7 @@ public class Distribuidora implements Serializable {
 
     @Override
     public String toString() {
-        return "Distribuidora{" + "id=" + id + ", nomeDistribuidora=" + nomeDistribuidora + '}';
+        return "Distribuidora{" + "id=" + id + ", nomeDistribuidora=" + nomeDistribuidora + ", empresaCollection=" + empresaCollection + '}';
     }
 
 }
