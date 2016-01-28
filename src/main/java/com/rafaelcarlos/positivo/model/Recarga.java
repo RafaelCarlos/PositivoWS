@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
@@ -30,8 +25,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.ws.BindingType;
 
 /**
  *
@@ -78,15 +71,14 @@ public class Recarga implements Serializable {
     @Column(name = "horario_venda")
     @Temporal(TemporalType.TIMESTAMP)
     private Date horarioVenda;
-    @Column(name = "versao", precision = 2, scale = 1)
+    @Column(name = "versao", precision = 1, scale = 2)
     private BigDecimal versao;
     @Column(name = "pago")
     private Boolean pago;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
     @Column(name = "status")
-    private String status;
+    private Boolean status;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -109,7 +101,7 @@ public class Recarga implements Serializable {
         this.id = id;
     }
 
-    public Recarga(Integer id, BigDecimal valor, String ddd, String numeroCelular, Date horarioVenda, BigDecimal versao, Boolean pago, String status, String nsu, Collection<RecargaCancelada> recargaCanceladaCollection, Usuario usuarioId, Produto produtoId) {
+    public Recarga(Integer id, BigDecimal valor, String ddd, String numeroCelular, Date horarioVenda, BigDecimal versao, Boolean pago, Boolean status, String nsu, Collection<RecargaCancelada> recargaCanceladaCollection, Usuario usuarioId, Produto produtoId) {
         this.id = id;
         this.valor = valor;
         this.ddd = ddd;
@@ -180,11 +172,11 @@ public class Recarga implements Serializable {
         this.pago = pago;
     }
 
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
@@ -222,8 +214,8 @@ public class Recarga implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 59 * hash + Objects.hashCode(this.id);
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
