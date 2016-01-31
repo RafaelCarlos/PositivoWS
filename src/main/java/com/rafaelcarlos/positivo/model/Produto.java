@@ -26,6 +26,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "produto")
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
     @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
     @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :id"),
@@ -50,6 +53,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Produto.findByValorVariavel", query = "SELECT p FROM Produto p WHERE p.valorVariavel = :valorVariavel"),
     @NamedQuery(name = "Produto.findByUlltimaAtualizacao", query = "SELECT p FROM Produto p WHERE p.ulltimaAtualizacao = :ulltimaAtualizacao")})
 public class Produto implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -263,5 +267,5 @@ public class Produto implements Serializable {
     public String toString() {
         return "com.rafaelcarlos.positivo.model.Produto[ id=" + id + " ]";
     }
-    
+
 }

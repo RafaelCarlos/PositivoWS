@@ -51,7 +51,6 @@ public class OperadoraWSResource {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_XML)
     @Produces(MediaType.APPLICATION_XML)
     public void pegaOperadora() {
         Operadora operadora = new Operadora();
