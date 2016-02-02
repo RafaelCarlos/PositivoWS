@@ -1,5 +1,6 @@
 package com.rafaelcarlos.positivo.model;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -61,9 +62,9 @@ public class Operadora implements Serializable {
     @Column(name = "ultima_atualizacao_operadora")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimaAtualizacaoOperadora;
-    private Integer qtdOperadoras;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "operadoraId")
-    private Collection<Produto> produtoCollection;
+    private Collection<Produto> produtos;
 
     private List<EstadosAtuantes> estadosAtuantes;
 
@@ -86,7 +87,7 @@ public class Operadora implements Serializable {
         this.nomeOperadora = nomeOperadora;
         this.codigoOperadora = codigoOperadora;
         this.ultimaAtualizacaoOperadora = ultimaAtualizacaoOperadora;
-        this.produtoCollection = produtoCollection;
+        this.produtos = produtoCollection;
         this.estadosAtuantes = estadosAtuantes;
     }
 
@@ -124,11 +125,11 @@ public class Operadora implements Serializable {
 
     @XmlTransient
     public Collection<Produto> getProdutoCollection() {
-        return produtoCollection;
+        return produtos;
     }
 
     public void setProdutoCollection(Collection<Produto> produtoCollection) {
-        this.produtoCollection = produtoCollection;
+        this.produtos = produtoCollection;
     }
 
     public List<EstadosAtuantes> getEstadosAtuantes() {
@@ -137,14 +138,6 @@ public class Operadora implements Serializable {
 
     public void setEstadosAtuantes(List<EstadosAtuantes> estadosAtuantes) {
         this.estadosAtuantes = estadosAtuantes;
-    }
-
-    public Integer getQtdOperadoras() {
-        return qtdOperadoras;
-    }
-
-    public void setQtdOperadoras(Integer qtdOperadoras) {
-        this.qtdOperadoras = qtdOperadoras;
     }
 
     @Override
@@ -169,7 +162,7 @@ public class Operadora implements Serializable {
 
     @Override
     public String toString() {
-        return "Operadora{" + "id=" + id + ", nomeOperadora=" + nomeOperadora + ", codigoOperadora=" + codigoOperadora + ", ultimaAtualizacaoOperadora=" + ultimaAtualizacaoOperadora + ", produtoCollection=" + produtoCollection + ", estadosAtuantes=" + estadosAtuantes + '}';
+        return "Operadora{" + "id=" + id + ", nomeOperadora=" + nomeOperadora + ", codigoOperadora=" + codigoOperadora + ", ultimaAtualizacaoOperadora=" + ultimaAtualizacaoOperadora + ", produtoCollection=" + produtos + ", estadosAtuantes=" + estadosAtuantes + '}';
     }
 
 }

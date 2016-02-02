@@ -27,7 +27,7 @@ public class ConversorData implements Converter {
 
         Date data = (Date) o;
 
-        String dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(data);
+        String dataFormatada = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(data);
 
         writer.setValue(dataFormatada);
 

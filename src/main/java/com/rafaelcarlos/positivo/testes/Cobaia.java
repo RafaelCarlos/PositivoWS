@@ -9,6 +9,8 @@ import com.rafaelcarlos.positivo.model.QtdEstadosOperadora;
 import com.rafaelcarlos.positivo.model.QtdOperadoras;
 import com.rafaelcarlos.positivo.util.CellCardConversor;
 import com.rafaelcarlos.positivo.util.ConversorData;
+import com.rafaelcarlos.positivo.util.OperadoraConverter;
+import com.rafaelcarlos.positivo.util.OperadorasConversor;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.security.NoSuchAlgorithmException;
@@ -40,7 +42,6 @@ public class Cobaia {
     
     public void enviaForm() throws NoSuchAlgorithmException {
         
-        SSLContext sslContext = SSLContext.getInstance("SSL");
         Client client = ClientBuilder.newBuilder()
                 .property("connection.timeout", 100)
                 .register(MediaType.APPLICATION_XML_TYPE)
@@ -50,12 +51,17 @@ public class Cobaia {
         XStream conversor = new XStream(new DomDriver());
         conversor.alias("cellcard", Cellcard.class);
         conversor.alias("operadoras", Operadoras.class);
-//        conversor.alias("qtdoperadoras", QtdOperadoras.class);
         conversor.alias("operadora", Operadora.class);
-//        conversor.alias("produto", Produto.class);
+        conversor.alias("produto", Produto.class);
+        conversor.alias("codigooperadora", String.class);
+//        conversor.alias("qtdoperadoras", QtdOperadoras.class);
+
+//        conversor.omitField(QtdOperadoras.class, "qtdoperadoras");
 //        conversor.alias("estadosatuantes", EstadosAtuantes.class);
 //        conversor.alias("qtdestadosoperadora", QtdEstadosOperadora.class);
-        conversor.registerConverter(new CellCardConversor());
+//        conversor.registerConverter(new CellCardConversor());
+        conversor.registerConverter(new OperadorasConversor());
+        conversor.registerConverter(new ConversorData());
         Form form = new Form()
                 .param("envio_primario", "1")
                 .param("nome_primario", "teste")
@@ -70,22 +76,30 @@ public class Cobaia {
                 .post(Entity.form(form));
         
         String varia = response.readEntity(String.class);
+
 //        Operadora operadora = (Operadora) conversor.fromXML(varia);
         Cellcard cellcard = (Cellcard) conversor.fromXML(varia);
         System.out.println("Resposta: " + response);
         System.out.println("\n" + response.getStatus());
 //        System.out.println("\n" + response.readEntity(String.class));
+        System.out.println("Resultado cellcard " + cellcard.getVersao());
+        System.out.println("Resultado cellcard " + cellcard.getCodigoTransacao());
+        System.out.println("Resultado cellcard " + cellcard.getLoja());
+        System.out.println("Quantidade " + cellcard.getOperadoras().getQtdOperadoras());
 
-        System.out.println("Resultado cellcard" + cellcard.getVersao());
-        System.out.println("Resultado cellcard" + cellcard.getCodigoTransacao());
-        System.out.println("Resultado cellcard" + cellcard.getLoja());
-//        System.out.println("Resultado cellcard" + cellcard.getOperadoras().getQtdOperadoras());
-//        System.out.println("Resultado cellcard" + cellcard.getOperadoras());
-//        System.out.println("Resultado em objeto: " + operadora.getCodigoOperadora());
-//        System.out.println("Resultado em objeto: " + operadora.getNomeOperadora());
-//        System.out.println("Resultado em objeto: " + operadora.getEstadosAtuantes());
-//        System.out.println("Resultado em objeto: " + operadora.getUltimaAtualizacaoOperadora());
-
+//        for (Operadora operadora : cellcard.getOperadoras().getOperadora()) {
+////            System.out.println("Quantidades: " + operadora.getQtdOperadoras());
+//            System.out.println("Codigo: " + operadora.getCodigoOperadora());
+//            System.out.println("Nome: " + operadora.getNomeOperadora());
+////            System.out.println("Atualizaçao: " + operadora.getUltimaAtualizacaoOperadora());
+////            System.out.println("Operadora codigo" + operadora.getCodigoOperadora());
+//
+//        }
+//        
+//        for (Operadoras operadoras : cellcard.getOperadoras().getOperadora())
+//        {
+//            System.out.println("Qtd " + operadoras.getOperadora());
+//        }
         response.close();
     }
 }

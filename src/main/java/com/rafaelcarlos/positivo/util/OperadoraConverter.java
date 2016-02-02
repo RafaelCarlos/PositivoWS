@@ -11,6 +11,7 @@ import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import java.util.Date;
 
 /**
  *
@@ -30,14 +31,26 @@ public class OperadoraConverter implements Converter {
     }
 
     @Override
-    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext uc) {
+    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 
         Operadora operadora = new Operadora();
 
-        reader.moveDown();
+        while (reader.hasMoreChildren()) {
+            reader.moveDown();
 
-        if (true) {
+            if ("codigooperadora".equals(reader.getNodeName())) {
+                String codigoOperadora = (String) context.convertAnother(operadora, String.class);
+                operadora.setCodigoOperadora(codigoOperadora);
+            } else if ("nomeoperadora".equals(reader.getNodeName())) {
+                String nomeOperadora = (String) context.convertAnother(operadora, String.class);
+                operadora.setNomeOperadora(nomeOperadora);
+            } else if ("ultimaatualizacaooperadora".equals(reader.getNodeName())) {
+                Date ultimaAtualizacaoOperadora = (Date) context.convertAnother(operadora, Date.class);
+                operadora.setUltimaAtualizacaoOperadora(ultimaAtualizacaoOperadora);
 
+            }
+
+            reader.moveUp();
         }
         return operadora;
     }

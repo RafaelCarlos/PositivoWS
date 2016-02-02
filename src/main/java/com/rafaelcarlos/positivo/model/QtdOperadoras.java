@@ -5,6 +5,7 @@
  */
 package com.rafaelcarlos.positivo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,23 +19,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class QtdOperadoras {
 
-    private Integer qtdOperadoras;
+    private List qtdOperadoras = new ArrayList();
 
     private List<Operadora> operadoras;
 
     public QtdOperadoras() {
     }
 
-    public QtdOperadoras(Integer qtdOperadoras, List<Operadora> operadoras) {
-        this.qtdOperadoras = qtdOperadoras;
-        this.operadoras = operadoras;
-    }
-
-    public Integer getQtdOperadoras() {
+    public List getQtdOperadoras() {
         return qtdOperadoras;
     }
 
-    public void setQtdOperadoras(Integer qtdOperadoras) {
+    public void setQtdOperadoras(List qtdOperadoras) {
         this.qtdOperadoras = qtdOperadoras;
     }
 
@@ -44,11 +40,6 @@ public class QtdOperadoras {
 
     public void setOperadoras(List<Operadora> operadoras) {
         this.operadoras = operadoras;
-    }
-
-    @Override
-    public String toString() {
-        return "QtdOperadoras{" + "qtdOperadoras=" + qtdOperadoras + ", operadoras=" + operadoras + '}';
     }
 
 }

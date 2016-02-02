@@ -6,6 +6,7 @@
 package com.rafaelcarlos.positivo.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,26 +19,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Operadoras {
 
-    private ArrayList<Operadora> operadoras;
-    private ArrayList qtdOperadoras;
+    private Integer qtdOperadoras;
+
+    private List<Operadora> operadora;
 
     public Operadoras() {
     }
 
-    public ArrayList<Operadora> getOperadoras() {
-        return operadoras;
-    }
-
-    public void setOperadoras(ArrayList<Operadora> operadoras) {
-        this.operadoras = operadoras;
-    }
-
-    public ArrayList getQtdOperadoras() {
+    public Integer getQtdOperadoras() {
         return qtdOperadoras;
     }
 
-    public void setQtdOperadoras(ArrayList qtdOperadoras) {
+    public void setQtdOperadoras(Integer qtdOperadoras) {
         this.qtdOperadoras = qtdOperadoras;
+    }
+
+    public List<Operadora> getOperadora() {
+        return operadora;
+    }
+
+    public void setOperadora(List<Operadora> operadora) {
+        this.operadora = operadora;
     }
 
 }
