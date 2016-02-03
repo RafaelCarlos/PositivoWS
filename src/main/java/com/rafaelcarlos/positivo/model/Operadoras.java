@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Operadoras {
+public class Operadoras extends Produto{
 
     private Integer qtdOperadoras;
 

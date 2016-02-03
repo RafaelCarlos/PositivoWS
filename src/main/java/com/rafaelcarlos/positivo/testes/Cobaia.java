@@ -17,6 +17,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.StringReader;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -33,9 +34,9 @@ import javax.xml.transform.stream.StreamSource;
  * @author rafaellcarloss
  */
 public class Cobaia {
-    
+
     public static void main(String[] args) throws Exception {
-        
+
         Cobaia http = new Cobaia();
 
 //        System.out.println("Testing 1 - Send Http GET request");
@@ -43,15 +44,15 @@ public class Cobaia {
 //        System.out.println("\nTesting 2 - Send Http POST request");
         System.out.println("Enviando form...");
         http.enviaForm();
-        
+
     }
-    
+
     public void enviaForm() throws JAXBException {
-        
+
         Client client = ClientBuilder.newBuilder()
                 .build();
         Integer codigo = 1;
-        
+
         XStream conversor = new XStream(new DomDriver());
         conversor.alias("cellcard", Cellcard.class);
         conversor.alias("operadoras", Operadoras.class);
@@ -60,7 +61,7 @@ public class Cobaia {
         conversor.alias("produtos", Produtos.class);
         conversor.alias("produto", ProdutoRV.class);
         conversor.alias("estadosprodutopin", EstadosProdutoPin.class);
-        
+
         JAXBContext jaxbContext = JAXBContext.newInstance(Cellcard.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 //        conversor.omitField(QtdOperadoras.class, "qtdoperadoras");
@@ -78,11 +79,11 @@ public class Cobaia {
                 .param("versao", "3.93")
                 .param("codigo_transacao", codigo.toString())
                 .param("cod_retorno", "14");
-        
+
         Response response = client.target("https://www.cellcard.com.br/teste/integracao_xml.php")
                 .request()
                 .post(Entity.form(form));
-        
+
         String varia = response.readEntity(String.class);
         StringBuffer temp = new StringBuffer(varia);
 //        Operadora operadora = (Operadora) conversor.fromXML(varia);
@@ -90,25 +91,39 @@ public class Cobaia {
 //        Cellcard cellcardJax = (Cellcard) jaxbUnmarshaller.unmarshal(varia);
         Object cell = jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(temp.toString())));
         Cellcard celular = (Cellcard) cell;
-        
+
         System.out.println("Resposta: " + response);
         System.out.println("\n" + response.getStatus());
-        System.out.println("Objeto " + celular.getCodigoTransacao());
-        System.out.println("Objeto " + celular.getLoja());
-        System.out.println("Objeto " + celular.getVersao());
-        System.out.println("Operadoras " + celular.getOperadoras().getQtdOperadoras());
-        
+        System.out.println("Código transação: " + celular.getCodigoTransacao());
+        System.out.println("Loja: " + celular.getLoja());
+        System.out.println("Versão: " + celular.getVersao());
+        System.out.println("Quantidade operadoras: " + celular.getOperadoras().getQtdOperadoras());
+
         for (Operadora operadora : celular.getOperadoras().getOperadora()) {
             if (operadora.getCodigoOperadora().equals("M5") || operadora.getCodigoOperadora().equals("M2")
                     || operadora.getCodigoOperadora().equals("M3") || operadora.getCodigoOperadora().equals("3")) {
-                
-                System.out.println("Codigo " + operadora.getCodigoOperadora());
-                System.out.println("Nome " + operadora.getNomeOperadora());
-                System.out.println("Atualizaçao " + operadora.getUltimaAtualizacaoOperadora());
-                System.out.println("Quantidade Produtos: " + operadora.getProdutos().getQtdprodutos());
-                System.out.println("Produtos: " + operadora.getProdutos().getProduto());
-                System.out.println("Nome Produto: " + operadora.getProdutos().getNomeProduto());
-                
+
+                for (Produto produto : operadora.getProdutos().getProduto()) {
+
+                    System.out.println("Codigo " + operadora.getCodigoOperadora());
+                    System.out.println("Nome " + operadora.getNomeOperadora());
+                    System.out.println("Atualizaçao " + operadora.getUltimaAtualizacaoOperadora());
+                    System.out.println("Quantidade Produtos: " + operadora.getProdutos().getQtdprodutos());
+
+                    System.out.println("Código produto: " + produto.getCodigoProduto());
+                    System.out.println("Nome produto: " + produto.getNomeProduto());
+                    System.out.println("Preço compra produto: " + produto.getValorCompra());
+                    System.out.println("Preço venda produto: " + produto.getValorVenda());
+                    System.out.println("Validade produto: " + produto.getValidade());
+                    System.out.println("Modelo recarga: " + produto.getModeloRecarga());
+                    System.out.println("Valor minimo: " + produto.getValorMinimo());
+                    System.out.println("Valor maximo: " + produto.getValorMaximo());
+                    System.out.println("Valor incremento: " + produto.getValorIncremento());
+                    System.out.println("Ultima atualizaçao: " + produto.getUlltimaAtualizacao());
+                    System.out.println("Valor variavel: " + produto.getValorVariavel());
+                    System.out.println("------------------------------------------");
+                }
+
 //                for(Produto produto : celular.getOperadoras().getOperadora())
 //                {
 //                    System.out.println("Codigo Produto: " + produto.getNomeProduto());

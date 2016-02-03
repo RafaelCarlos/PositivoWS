@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Produtos extends Produto{
+public class Produtos {
 
-    private Integer qtdprodutos;
+    private Integer qtdProdutos;
 
     private List<Produto> produto;
 
@@ -27,11 +27,11 @@ public class Produtos extends Produto{
     }
    
     public Integer getQtdprodutos() {
-        return qtdprodutos;
+        return qtdProdutos;
     }
 
     public void setQtdprodutos(Integer qtdprodutos) {
-        this.qtdprodutos = qtdprodutos;
+        this.qtdProdutos = qtdprodutos;
     }
 
     public List<Produto> getProduto() {
@@ -44,7 +44,7 @@ public class Produtos extends Produto{
 
     @Override
     public String toString() {
-        return "Produtos{" + "qtdprodutos=" + qtdprodutos + ", produto=" + produto + '}';
+        return "Produtos{" + "qtdprodutos=" + qtdProdutos + ", produto=" + produto + '}';
     }
 
 }

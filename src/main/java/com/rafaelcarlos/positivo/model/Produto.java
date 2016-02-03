@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rafaelcarlos.positivo.model;
 
+import com.rafaelcarlos.positivo.util.DateAdapter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -30,7 +26,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
@@ -65,6 +61,11 @@ public class Produto implements Serializable {
     @NotNull
     @Column(name = "qtd_produto")
     private int qtdProduto;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 4)
+    @Column(name = "codigo_produto")
+    private String codigoProduto;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
@@ -105,6 +106,10 @@ public class Produto implements Serializable {
     @Column(name = "ulltima_atualizacao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ulltimaAtualizacao;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "valor_incremento")
+    private BigDecimal valorIncremento;
     @JoinColumn(name = "empresa_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Empresa empresaId;
@@ -121,9 +126,10 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public Produto(Integer id, int qtdProduto, String nomeProduto, BigDecimal valorCompra, BigDecimal valorVenda, int validade, String modeloRecarga, BigDecimal valorMinimo, BigDecimal valorMaximo, BigDecimal valorVariavel, Date ulltimaAtualizacao, Empresa empresaId, Operadora operadoraId, Collection<Recarga> recargaCollection) {
+    public Produto(Integer id, int qtdProduto, String codigoProduto, String nomeProduto, BigDecimal valorCompra, BigDecimal valorVenda, int validade, String modeloRecarga, BigDecimal valorMinimo, BigDecimal valorMaximo, BigDecimal valorVariavel, Date ulltimaAtualizacao, BigDecimal valorIncremento, Empresa empresaId, Operadora operadoraId, Collection<Recarga> recargaCollection) {
         this.id = id;
         this.qtdProduto = qtdProduto;
+        this.codigoProduto = codigoProduto;
         this.nomeProduto = nomeProduto;
         this.valorCompra = valorCompra;
         this.valorVenda = valorVenda;
@@ -133,6 +139,7 @@ public class Produto implements Serializable {
         this.valorMaximo = valorMaximo;
         this.valorVariavel = valorVariavel;
         this.ulltimaAtualizacao = ulltimaAtualizacao;
+        this.valorIncremento = valorIncremento;
         this.empresaId = empresaId;
         this.operadoraId = operadoraId;
         this.recargaCollection = recargaCollection;
@@ -152,6 +159,14 @@ public class Produto implements Serializable {
 
     public void setQtdProduto(int qtdProduto) {
         this.qtdProduto = qtdProduto;
+    }
+
+    public String getCodigoProduto() {
+        return codigoProduto;
+    }
+
+    public void setCodigoProduto(String codigoProduto) {
+        this.codigoProduto = codigoProduto;
     }
 
     public String getNomeProduto() {
@@ -218,12 +233,21 @@ public class Produto implements Serializable {
         this.valorVariavel = valorVariavel;
     }
 
+    @XmlJavaTypeAdapter(DateAdapter.class)
     public Date getUlltimaAtualizacao() {
         return ulltimaAtualizacao;
     }
 
     public void setUlltimaAtualizacao(Date ulltimaAtualizacao) {
         this.ulltimaAtualizacao = ulltimaAtualizacao;
+    }
+
+    public BigDecimal getValorIncremento() {
+        return valorIncremento;
+    }
+
+    public void setValorIncremento(BigDecimal valorIncremento) {
+        this.valorIncremento = valorIncremento;
     }
 
     public Empresa getEmpresaId() {
@@ -252,8 +276,8 @@ public class Produto implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 17 * hash + Objects.hashCode(this.id);
+        int hash = 3;
+        hash = 11 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -274,7 +298,7 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return "Produto{" + "id=" + id + ", qtdProduto=" + qtdProduto + ", nomeProduto=" + nomeProduto + ", valorCompra=" + valorCompra + ", valorVenda=" + valorVenda + ", validade=" + validade + ", modeloRecarga=" + modeloRecarga + ", valorMinimo=" + valorMinimo + ", valorMaximo=" + valorMaximo + ", valorVariavel=" + valorVariavel + ", ulltimaAtualizacao=" + ulltimaAtualizacao + ", empresaId=" + empresaId + ", operadoraId=" + operadoraId + ", recargaCollection=" + recargaCollection + '}';
+        return "Produto{" + "id=" + id + ", qtdProduto=" + qtdProduto + ", codigoProduto=" + codigoProduto + ", nomeProduto=" + nomeProduto + ", valorCompra=" + valorCompra + ", valorVenda=" + valorVenda + ", validade=" + validade + ", modeloRecarga=" + modeloRecarga + ", valorMinimo=" + valorMinimo + ", valorMaximo=" + valorMaximo + ", valorVariavel=" + valorVariavel + ", ulltimaAtualizacao=" + ulltimaAtualizacao + ", valorIncremento=" + valorIncremento + ", empresaId=" + empresaId + ", operadoraId=" + operadoraId + ", recargaCollection=" + recargaCollection + '}';
     }
 
 }

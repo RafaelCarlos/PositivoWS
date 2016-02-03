@@ -1,7 +1,6 @@
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Operadora.findByNomeOperadora", query = "SELECT o FROM Operadora o WHERE o.nomeOperadora = :nomeOperadora"),
     @NamedQuery(name = "Operadora.findByCodigoOperadora", query = "SELECT o FROM Operadora o WHERE o.codigoOperadora = :codigoOperadora"),
     @NamedQuery(name = "Operadora.findByUltimaAtualizacaoOperadora", query = "SELECT o FROM Operadora o WHERE o.ultimaAtualizacaoOperadora = :ultimaAtualizacaoOperadora")})
-public class Operadora extends Produto implements Serializable {
+public class Operadora implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
