@@ -3,6 +3,7 @@ package com.rafaelcarlos.positivo.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -38,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Operadora.findByNomeOperadora", query = "SELECT o FROM Operadora o WHERE o.nomeOperadora = :nomeOperadora"),
     @NamedQuery(name = "Operadora.findByCodigoOperadora", query = "SELECT o FROM Operadora o WHERE o.codigoOperadora = :codigoOperadora"),
     @NamedQuery(name = "Operadora.findByUltimaAtualizacaoOperadora", query = "SELECT o FROM Operadora o WHERE o.ultimaAtualizacaoOperadora = :ultimaAtualizacaoOperadora")})
-public class Operadora implements Serializable {
+public class Operadora extends Produto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -68,7 +69,7 @@ public class Operadora implements Serializable {
     private EstadosAtuantes estadosAtuantes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "operadoraId")
-    private Collection<Produto> produto;
+    private List<Produto> produto;
 
     public Operadora() {
     }
@@ -77,11 +78,13 @@ public class Operadora implements Serializable {
         this.id = id;
     }
 
-    public Operadora(Integer id, String nomeOperadora, String codigoOperadora, Date ultimaAtualizacaoOperadora, Collection<Produto> produto) {
+    public Operadora(Integer id, String nomeOperadora, String codigoOperadora, Date ultimaAtualizacaoOperadora, Produtos produtos, EstadosAtuantes estadosAtuantes, List<Produto> produto) {
         this.id = id;
         this.nomeOperadora = nomeOperadora;
         this.codigoOperadora = codigoOperadora;
         this.ultimaAtualizacaoOperadora = ultimaAtualizacaoOperadora;
+        this.produtos = produtos;
+        this.estadosAtuantes = estadosAtuantes;
         this.produto = produto;
     }
 
@@ -133,18 +136,18 @@ public class Operadora implements Serializable {
         this.estadosAtuantes = estadosAtuantes;
     }
 
-    public Collection<Produto> getProduto() {
+    public List<Produto> getProduto() {
         return produto;
     }
 
-    public void setProduto(Collection<Produto> produto) {
+    public void setProduto(List<Produto> produto) {
         this.produto = produto;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 47 * hash + Objects.hashCode(this.id);
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.id);
         return hash;
     }
 

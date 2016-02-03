@@ -59,4 +59,9 @@ public class Cellcard {
         this.operadoras = operadoras;
     }
 
+    @Override
+    public String toString() {
+        return "Cellcard{" + "versao=" + versao + ", codigoTransacao=" + codigoTransacao + ", loja=" + loja + ", operadoras=" + operadoras + '}';
+    }
+
 }

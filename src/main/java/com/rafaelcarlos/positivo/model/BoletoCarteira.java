@@ -54,7 +54,7 @@ public class BoletoCarteira implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_vencimento")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dataVencimento;
     @Basic(optional = false)
     @NotNull
@@ -63,7 +63,7 @@ public class BoletoCarteira implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_emissao")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date dataEmissao;
     @JoinColumn(name = "carteira_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -82,8 +83,11 @@ public class Produto implements Serializable {
     @NotNull
     @Column(name = "validade")
     private int validade;
+    @NotNull
+    @Basic(optional = false)
+    @Size(min = 1, max = 20)
     @Column(name = "modelo_recarga")
-    private Integer modeloRecarga;
+    private String modeloRecarga;
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor_minimo")
@@ -117,17 +121,21 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public Produto(Integer id, int qtdProduto, String nomeProduto, BigDecimal valorCompra, BigDecimal valorVenda, int validade, BigDecimal valorMinimo, BigDecimal valorMaximo, BigDecimal valorVariavel, Date ulltimaAtualizacao) {
+    public Produto(Integer id, int qtdProduto, String nomeProduto, BigDecimal valorCompra, BigDecimal valorVenda, int validade, String modeloRecarga, BigDecimal valorMinimo, BigDecimal valorMaximo, BigDecimal valorVariavel, Date ulltimaAtualizacao, Empresa empresaId, Operadora operadoraId, Collection<Recarga> recargaCollection) {
         this.id = id;
         this.qtdProduto = qtdProduto;
         this.nomeProduto = nomeProduto;
         this.valorCompra = valorCompra;
         this.valorVenda = valorVenda;
         this.validade = validade;
+        this.modeloRecarga = modeloRecarga;
         this.valorMinimo = valorMinimo;
         this.valorMaximo = valorMaximo;
         this.valorVariavel = valorVariavel;
         this.ulltimaAtualizacao = ulltimaAtualizacao;
+        this.empresaId = empresaId;
+        this.operadoraId = operadoraId;
+        this.recargaCollection = recargaCollection;
     }
 
     public Integer getId() {
@@ -178,11 +186,11 @@ public class Produto implements Serializable {
         this.validade = validade;
     }
 
-    public Integer getModeloRecarga() {
+    public String getModeloRecarga() {
         return modeloRecarga;
     }
 
-    public void setModeloRecarga(Integer modeloRecarga) {
+    public void setModeloRecarga(String modeloRecarga) {
         this.modeloRecarga = modeloRecarga;
     }
 
@@ -234,7 +242,6 @@ public class Produto implements Serializable {
         this.operadoraId = operadoraId;
     }
 
-    @XmlTransient
     public Collection<Recarga> getRecargaCollection() {
         return recargaCollection;
     }
@@ -245,19 +252,21 @@ public class Produto implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 5;
+        hash = 17 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Produto)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Produto other = (Produto) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Produto other = (Produto) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -265,7 +274,7 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return "com.rafaelcarlos.positivo.model.Produto[ id=" + id + " ]";
+        return "Produto{" + "id=" + id + ", qtdProduto=" + qtdProduto + ", nomeProduto=" + nomeProduto + ", valorCompra=" + valorCompra + ", valorVenda=" + valorVenda + ", validade=" + validade + ", modeloRecarga=" + modeloRecarga + ", valorMinimo=" + valorMinimo + ", valorMaximo=" + valorMaximo + ", valorVariavel=" + valorVariavel + ", ulltimaAtualizacao=" + ulltimaAtualizacao + ", empresaId=" + empresaId + ", operadoraId=" + operadoraId + ", recargaCollection=" + recargaCollection + '}';
     }
 
 }
