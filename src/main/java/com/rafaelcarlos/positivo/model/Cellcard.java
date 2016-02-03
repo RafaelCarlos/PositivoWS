@@ -24,6 +24,7 @@ public class Cellcard {
     private Operadoras operadoras;
 
     public Cellcard() {
+        super();
     }
 
     public Double getVersao() {

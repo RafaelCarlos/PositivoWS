@@ -1,10 +1,9 @@
 package com.rafaelcarlos.positivo.model;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,8 +21,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -55,6 +54,7 @@ public class Operadora implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 4)
+    @XmlElement
     @Column(name = "codigo_operadora")
     private String codigoOperadora;
     @Basic(optional = false)
@@ -63,10 +63,12 @@ public class Operadora implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimaAtualizacaoOperadora;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "operadoraId")
-    private Collection<Produto> produtos;
+    private Produtos produtos;
 
-    private List<EstadosAtuantes> estadosAtuantes;
+    private EstadosAtuantes estadosAtuantes;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "operadoraId")
+    private Collection<Produto> produto;
 
     public Operadora() {
     }
@@ -75,20 +77,12 @@ public class Operadora implements Serializable {
         this.id = id;
     }
 
-    public Operadora(Integer id, String nomeOperadora, String codigoOperadora, Date ultimaAtualizacaoOperadora) {
+    public Operadora(Integer id, String nomeOperadora, String codigoOperadora, Date ultimaAtualizacaoOperadora, Collection<Produto> produto) {
         this.id = id;
         this.nomeOperadora = nomeOperadora;
         this.codigoOperadora = codigoOperadora;
         this.ultimaAtualizacaoOperadora = ultimaAtualizacaoOperadora;
-    }
-
-    public Operadora(Integer id, String nomeOperadora, String codigoOperadora, Date ultimaAtualizacaoOperadora, Collection<Produto> produtoCollection, List<EstadosAtuantes> estadosAtuantes) {
-        this.id = id;
-        this.nomeOperadora = nomeOperadora;
-        this.codigoOperadora = codigoOperadora;
-        this.ultimaAtualizacaoOperadora = ultimaAtualizacaoOperadora;
-        this.produtos = produtoCollection;
-        this.estadosAtuantes = estadosAtuantes;
+        this.produto = produto;
     }
 
     public Integer getId() {
@@ -123,38 +117,47 @@ public class Operadora implements Serializable {
         this.ultimaAtualizacaoOperadora = ultimaAtualizacaoOperadora;
     }
 
-    @XmlTransient
-    public Collection<Produto> getProdutoCollection() {
+    public Produtos getProdutos() {
         return produtos;
     }
 
-    public void setProdutoCollection(Collection<Produto> produtoCollection) {
-        this.produtos = produtoCollection;
+    public void setProdutos(Produtos produtos) {
+        this.produtos = produtos;
     }
 
-    public List<EstadosAtuantes> getEstadosAtuantes() {
+    public EstadosAtuantes getEstadosAtuantes() {
         return estadosAtuantes;
     }
 
-    public void setEstadosAtuantes(List<EstadosAtuantes> estadosAtuantes) {
+    public void setEstadosAtuantes(EstadosAtuantes estadosAtuantes) {
         this.estadosAtuantes = estadosAtuantes;
+    }
+
+    public Collection<Produto> getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Collection<Produto> produto) {
+        this.produto = produto;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 3;
+        hash = 47 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Operadora)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Operadora other = (Operadora) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Operadora other = (Operadora) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
@@ -162,7 +165,7 @@ public class Operadora implements Serializable {
 
     @Override
     public String toString() {
-        return "Operadora{" + "id=" + id + ", nomeOperadora=" + nomeOperadora + ", codigoOperadora=" + codigoOperadora + ", ultimaAtualizacaoOperadora=" + ultimaAtualizacaoOperadora + ", produtoCollection=" + produtos + ", estadosAtuantes=" + estadosAtuantes + '}';
+        return "Operadora{" + "id=" + id + ", nomeOperadora=" + nomeOperadora + ", codigoOperadora=" + codigoOperadora + ", ultimaAtualizacaoOperadora=" + ultimaAtualizacaoOperadora + ", produtos=" + produtos + ", estadosAtuantes=" + estadosAtuantes + ", produto=" + produto + '}';
     }
 
 }

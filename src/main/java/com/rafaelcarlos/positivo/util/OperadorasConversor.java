@@ -19,28 +19,33 @@ import java.util.List;
  * @author rafaellcarloss
  */
 public class OperadorasConversor implements Converter {
-
+    
     @Override
     public boolean canConvert(Class type) {
         return type.equals(Operadoras.class);
     }
-
+    
     @Override
     public void marshal(Object o, HierarchicalStreamWriter writer, MarshallingContext mc) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-
+        
         Operadoras operadoras = new Operadoras();
-
+        
         while (reader.hasMoreChildren()) {
             reader.moveDown();
             if ("qtdoperadoras".equals(reader.getNodeName())) {
                 Integer qtdOperadora = (Integer) context.convertAnother(operadoras, Integer.class);
                 operadoras.setQtdOperadoras(qtdOperadora);
-            }
+            } 
+//            else if ("operadora".equals(reader.getNodeName())) {
+//                List<Operadora> operadora = (List<Operadora>) context.convertAnother(operadoras, List.class);
+//                operadoras.setOperadora(operadora);
+//                
+//            }
 
 //            if ("operadora".equals(reader.getNodeName())) {
 //                Operadora operadora = (Operadora) context.convertAnother(operadoras, Operadora.class);
@@ -49,6 +54,6 @@ public class OperadorasConversor implements Converter {
             reader.moveUp();
         }
         return operadoras;
-
+        
     }
 }
