@@ -1,5 +1,6 @@
 package com.rafaelcarlos.positivo.model;
 
+import com.rafaelcarlos.positivo.util.DateAdapter;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  *
@@ -61,6 +63,7 @@ public class Operadora implements Serializable {
     @NotNull
     @Column(name = "ultima_atualizacao_operadora")
     @Temporal(TemporalType.TIMESTAMP)
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date ultimaAtualizacaoOperadora;
 
     private Produtos produtos;

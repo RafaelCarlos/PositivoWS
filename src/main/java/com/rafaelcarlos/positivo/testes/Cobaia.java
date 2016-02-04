@@ -1,28 +1,13 @@
 package com.rafaelcarlos.positivo.testes;
 
 import com.rafaelcarlos.positivo.model.Cellcard;
-import com.rafaelcarlos.positivo.model.EstadosAtuantes;
-import com.rafaelcarlos.positivo.model.EstadosProdutoPin;
 import com.rafaelcarlos.positivo.model.Operadora;
-import com.rafaelcarlos.positivo.model.OperadoraRV;
-import com.rafaelcarlos.positivo.model.Operadoras;
 import com.rafaelcarlos.positivo.model.Produto;
-import com.rafaelcarlos.positivo.model.ProdutoRV;
-import com.rafaelcarlos.positivo.model.Produtos;
-import com.rafaelcarlos.positivo.util.AtualizacaoOperadoraConversor;
-import com.rafaelcarlos.positivo.util.ConversorData;
-import com.rafaelcarlos.positivo.util.OperadoraConverter;
-import com.rafaelcarlos.positivo.util.OperadorasConversor;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.StringReader;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -53,14 +38,14 @@ public class Cobaia {
                 .build();
         Integer codigo = 1;
 
-        XStream conversor = new XStream(new DomDriver());
-        conversor.alias("cellcard", Cellcard.class);
-        conversor.alias("operadoras", Operadoras.class);
-        conversor.alias("operadora", OperadoraRV.class);
-        conversor.alias("estadosatuantes", EstadosAtuantes.class);
-        conversor.alias("produtos", Produtos.class);
-        conversor.alias("produto", ProdutoRV.class);
-        conversor.alias("estadosprodutopin", EstadosProdutoPin.class);
+//        XStream conversor = new XStream(new DomDriver());
+//        conversor.alias("cellcard", Cellcard.class);
+//        conversor.alias("operadoras", Operadoras.class);
+//        conversor.alias("operadora", OperadoraRV.class);
+//        conversor.alias("estadosatuantes", EstadosAtuantes.class);
+//        conversor.alias("produtos", Produtos.class);
+//        conversor.alias("produto", ProdutoRV.class);
+//        conversor.alias("estadosprodutopin", EstadosProdutoPin.class);
 
         JAXBContext jaxbContext = JAXBContext.newInstance(Cellcard.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -70,7 +55,7 @@ public class Cobaia {
 //        conversor.registerConverter(new CellCardConversor());
 //        conversor.registerConverter(new OperadorasConversor());
 //        conversor.registerConverter(new OperadoraConverter());
-        conversor.registerConverter(new ConversorData());
+//        conversor.registerConverter(new ConversorData());
         Form form = new Form()
                 .param("envio_primario", "1")
                 .param("nome_primario", "teste")
@@ -107,19 +92,19 @@ public class Cobaia {
 
                     System.out.println("Codigo " + operadora.getCodigoOperadora());
                     System.out.println("Nome " + operadora.getNomeOperadora());
-                    System.out.println("Atualizaçao " + operadora.getUltimaAtualizacaoOperadora());
+                    System.out.println("Atualizaçao Operadora: " + operadora.getUltimaAtualizacaoOperadora());
                     System.out.println("Quantidade Produtos: " + operadora.getProdutos().getQtdprodutos());
 
-                    System.out.println("Código produto: " + produto.getCodigoProduto());
+                    System.out.println("\nCódigo produto: " + produto.getCodigoProduto());
                     System.out.println("Nome produto: " + produto.getNomeProduto());
-                    System.out.println("Preço compra produto: " + produto.getValorCompra());
-                    System.out.println("Preço venda produto: " + produto.getValorVenda());
+                    System.out.println("Preço compra produto: " + produto.getPrecoCompraProduto());
+                    System.out.println("Preço venda produto: " + produto.getPrecoVendaProduto());
                     System.out.println("Validade produto: " + produto.getValidade());
                     System.out.println("Modelo recarga: " + produto.getModeloRecarga());
-                    System.out.println("Valor minimo: " + produto.getValorMinimo());
-                    System.out.println("Valor maximo: " + produto.getValorMaximo());
-                    System.out.println("Valor incremento: " + produto.getValorIncremento());
-                    System.out.println("Ultima atualizaçao: " + produto.getUlltimaAtualizacao());
+                    System.out.println("Valor minimo: " + produto.getValorMinimoProduto());
+                    System.out.println("Valor maximo: " + produto.getValorMaximoProduto());
+                    System.out.println("Valor incremento: " + produto.getValorIncrementoProduto());
+                    System.out.println("Atualizaçao Produto: " + produto.getUltimaAtualizacaoProduto());
                     System.out.println("Valor variavel: " + produto.getValorVariavel());
                     System.out.println("------------------------------------------");
                 }

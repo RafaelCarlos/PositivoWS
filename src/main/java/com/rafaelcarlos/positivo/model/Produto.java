@@ -1,6 +1,10 @@
 package com.rafaelcarlos.positivo.model;
 
+import com.rafaelcarlos.positivo.util.BigDecimalAdapter;
+import com.rafaelcarlos.positivo.util.ConversorPersonalizado;
 import com.rafaelcarlos.positivo.util.DateAdapter;
+import com.rafaelcarlos.positivo.util.DateAdapterProduto;
+import com.rafaelcarlos.positivo.util.DateAdapterProdutos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -23,8 +27,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.ws.rs.ApplicationPath;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -75,11 +83,14 @@ public class Produto implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor_compra")
-    private BigDecimal valorCompra;
+//    @XmlElement(name = "precocompraproduto", type = BigDecimal.class, nillable = false, required = true)
+//    @XmlJavaTypeAdapter(BigDecimalAdapter.class)
+//    @XmlAttribute(name = "precocompraproduto")
+    private BigDecimal precoCompraProduto;
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor_venda")
-    private BigDecimal valorVenda;
+    private BigDecimal precoVendaProduto;
     @Basic(optional = false)
     @NotNull
     @Column(name = "validade")
@@ -92,24 +103,26 @@ public class Produto implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor_minimo")
-    private BigDecimal valorMinimo;
+    private BigDecimal valorMinimoProduto;
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor_maximo")
-    private BigDecimal valorMaximo;
+    private BigDecimal valorMaximoProduto;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor_variavel")
-    private BigDecimal valorVariavel;
+    @Column(name = "valor_incremento")
+    private BigDecimal valorIncrementoProduto;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ulltima_atualizacao")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date ulltimaAtualizacao;
+    @XmlJavaTypeAdapter(DateAdapterProduto.class)
+//    @XmlElement(name = "ultima_atualizacaoproduto")
+    private Date ultimaAtualizacaoProduto;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor_incremento")
-    private BigDecimal valorIncremento;
+    @Column(name = "valor_variavel")
+    private BigDecimal precoVariavelProduto;
     @JoinColumn(name = "empresa_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Empresa empresaId;
@@ -131,15 +144,15 @@ public class Produto implements Serializable {
         this.qtdProduto = qtdProduto;
         this.codigoProduto = codigoProduto;
         this.nomeProduto = nomeProduto;
-        this.valorCompra = valorCompra;
-        this.valorVenda = valorVenda;
+        this.precoCompraProduto = valorCompra;
+        this.precoVendaProduto = valorVenda;
         this.validade = validade;
         this.modeloRecarga = modeloRecarga;
-        this.valorMinimo = valorMinimo;
-        this.valorMaximo = valorMaximo;
-        this.valorVariavel = valorVariavel;
-        this.ulltimaAtualizacao = ulltimaAtualizacao;
-        this.valorIncremento = valorIncremento;
+        this.valorMinimoProduto = valorMinimo;
+        this.valorMaximoProduto = valorMaximo;
+        this.precoVariavelProduto = valorVariavel;
+        this.ultimaAtualizacaoProduto = ulltimaAtualizacao;
+        this.valorIncrementoProduto = valorIncremento;
         this.empresaId = empresaId;
         this.operadoraId = operadoraId;
         this.recargaCollection = recargaCollection;
@@ -177,20 +190,20 @@ public class Produto implements Serializable {
         this.nomeProduto = nomeProduto;
     }
 
-    public BigDecimal getValorCompra() {
-        return valorCompra;
+    public BigDecimal getPrecoCompraProduto() {
+        return precoCompraProduto;
     }
 
-    public void setValorCompra(BigDecimal valorCompra) {
-        this.valorCompra = valorCompra;
+    public void setPrecoCompraProduto(BigDecimal precoCompraProduto) {
+        this.precoCompraProduto = precoCompraProduto;
     }
 
-    public BigDecimal getValorVenda() {
-        return valorVenda;
+    public BigDecimal getPrecoVendaProduto() {
+        return precoVendaProduto;
     }
 
-    public void setValorVenda(BigDecimal valorVenda) {
-        this.valorVenda = valorVenda;
+    public void setPrecoVendaProduto(BigDecimal precoVendaProduto) {
+        this.precoVendaProduto = precoVendaProduto;
     }
 
     public int getValidade() {
@@ -209,45 +222,44 @@ public class Produto implements Serializable {
         this.modeloRecarga = modeloRecarga;
     }
 
-    public BigDecimal getValorMinimo() {
-        return valorMinimo;
+    public BigDecimal getValorMinimoProduto() {
+        return valorMinimoProduto;
     }
 
-    public void setValorMinimo(BigDecimal valorMinimo) {
-        this.valorMinimo = valorMinimo;
+    public void setValorMinimoProduto(BigDecimal valorMinimoProduto) {
+        this.valorMinimoProduto = valorMinimoProduto;
     }
 
-    public BigDecimal getValorMaximo() {
-        return valorMaximo;
+    public BigDecimal getValorMaximoProduto() {
+        return valorMaximoProduto;
     }
 
-    public void setValorMaximo(BigDecimal valorMaximo) {
-        this.valorMaximo = valorMaximo;
+    public void setValorMaximoProduto(BigDecimal valorMaximoProduto) {
+        this.valorMaximoProduto = valorMaximoProduto;
     }
 
     public BigDecimal getValorVariavel() {
-        return valorVariavel;
+        return precoVariavelProduto;
     }
 
     public void setValorVariavel(BigDecimal valorVariavel) {
-        this.valorVariavel = valorVariavel;
+        this.precoVariavelProduto = valorVariavel;
     }
 
-    @XmlJavaTypeAdapter(DateAdapter.class)
-    public Date getUlltimaAtualizacao() {
-        return ulltimaAtualizacao;
+    public Date getUltimaAtualizacaoProduto() {
+        return ultimaAtualizacaoProduto;
     }
 
-    public void setUlltimaAtualizacao(Date ulltimaAtualizacao) {
-        this.ulltimaAtualizacao = ulltimaAtualizacao;
+    public void setUltimaAtualizacaoProduto(Date ultimaAtualizacaoProduto) {
+        this.ultimaAtualizacaoProduto = ultimaAtualizacaoProduto;
     }
 
-    public BigDecimal getValorIncremento() {
-        return valorIncremento;
+    public BigDecimal getValorIncrementoProduto() {
+        return valorIncrementoProduto;
     }
 
-    public void setValorIncremento(BigDecimal valorIncremento) {
-        this.valorIncremento = valorIncremento;
+    public void setValorIncrementoProduto(BigDecimal valorIncrementoProduto) {
+        this.valorIncrementoProduto = valorIncrementoProduto;
     }
 
     public Empresa getEmpresaId() {
@@ -298,7 +310,7 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return "Produto{" + "id=" + id + ", qtdProduto=" + qtdProduto + ", codigoProduto=" + codigoProduto + ", nomeProduto=" + nomeProduto + ", valorCompra=" + valorCompra + ", valorVenda=" + valorVenda + ", validade=" + validade + ", modeloRecarga=" + modeloRecarga + ", valorMinimo=" + valorMinimo + ", valorMaximo=" + valorMaximo + ", valorVariavel=" + valorVariavel + ", ulltimaAtualizacao=" + ulltimaAtualizacao + ", valorIncremento=" + valorIncremento + ", empresaId=" + empresaId + ", operadoraId=" + operadoraId + ", recargaCollection=" + recargaCollection + '}';
+        return "Produto{" + "id=" + id + ", qtdProduto=" + qtdProduto + ", codigoProduto=" + codigoProduto + ", nomeProduto=" + nomeProduto + ", valorCompra=" + precoCompraProduto + ", valorVenda=" + precoVendaProduto + ", validade=" + validade + ", modeloRecarga=" + modeloRecarga + ", valorMinimo=" + valorMinimoProduto + ", valorMaximo=" + valorMaximoProduto + ", valorVariavel=" + precoVariavelProduto + ", ulltimaAtualizacao=" + ultimaAtualizacaoProduto + ", valorIncremento=" + valorIncrementoProduto + ", empresaId=" + empresaId + ", operadoraId=" + operadoraId + ", recargaCollection=" + recargaCollection + '}';
     }
 
 }

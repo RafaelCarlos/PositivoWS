@@ -5,11 +5,17 @@
  */
 package com.rafaelcarlos.positivo.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author rafaellcarloss
  */
-public class ProdutoRV {
+@XmlRootElement(name = "produto")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Produt {
 
     private String modelorecarga;
 

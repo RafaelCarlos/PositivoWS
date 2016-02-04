@@ -13,8 +13,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  *
  * @author rafaellcarloss
  */
-public class DateAdapter extends XmlAdapter<String, Date> {
-
+public class DateAdapterProduto extends XmlAdapter<String, Date> {
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -27,5 +26,4 @@ public class DateAdapter extends XmlAdapter<String, Date> {
     public Date unmarshal(String v) throws Exception {
         return dateFormat.parse(v);
     }
-
 }
