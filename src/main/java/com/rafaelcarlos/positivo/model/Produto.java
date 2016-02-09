@@ -79,13 +79,10 @@ public class Produto implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "nome_produto")
     private String nomeProduto;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor_compra")
-//    @XmlElement(name = "precocompraproduto", type = BigDecimal.class, nillable = false, required = true)
-//    @XmlJavaTypeAdapter(BigDecimalAdapter.class)
-//    @XmlAttribute(name = "precocompraproduto")
+    @XmlElement(name = "precocompraproduto", required = true)
     private BigDecimal precoCompraProduto;
     @Basic(optional = false)
     @NotNull
@@ -114,10 +111,9 @@ public class Produto implements Serializable {
     private BigDecimal valorIncrementoProduto;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ulltima_atualizacao")
+    @Column(name = "ultima_atualizacao_produto")
     @Temporal(TemporalType.TIMESTAMP)
-    @XmlJavaTypeAdapter(DateAdapterProduto.class)
-//    @XmlElement(name = "ultima_atualizacaoproduto")
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date ultimaAtualizacaoProduto;
     @Basic(optional = false)
     @NotNull
@@ -252,6 +248,14 @@ public class Produto implements Serializable {
 
     public void setUltimaAtualizacaoProduto(Date ultimaAtualizacaoProduto) {
         this.ultimaAtualizacaoProduto = ultimaAtualizacaoProduto;
+    }
+
+    public BigDecimal getPrecoVariavelProduto() {
+        return precoVariavelProduto;
+    }
+
+    public void setPrecoVariavelProduto(BigDecimal precoVariavelProduto) {
+        this.precoVariavelProduto = precoVariavelProduto;
     }
 
     public BigDecimal getValorIncrementoProduto() {

@@ -12,19 +12,20 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  *
  * @author rafaellcarloss
  */
-public class BigDecimalAdapter extends XmlAdapter<String, BigDecimal> {
+public class BigDecimalAdapter extends XmlAdapter<Double, Double> {
 
     @Override
-    public String marshal(BigDecimal value) throws Exception {
-        if (value != null) {
-            return value.toString();
-        }
-        return null;
+    public Double unmarshal(Double v) throws Exception {
+        return v;
     }
 
     @Override
-    public BigDecimal unmarshal(String s) throws Exception {
-        return new BigDecimal(s);
+    public Double marshal(Double v) throws Exception {
+        if (Double.MAX_VALUE == v) {
+            return null;
+        } else {
+            return v;
+        }
     }
 
 }
