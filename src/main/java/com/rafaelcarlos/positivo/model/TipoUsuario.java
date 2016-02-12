@@ -66,6 +66,10 @@ public class TipoUsuario implements Serializable {
         this.nomeTipo = nomeTipo;
     }
 
+    public TipoUsuario(String nomeTipo) {
+        this.nomeTipo = nomeTipo;
+    }
+
     public Integer getId() {
         return id;
     }

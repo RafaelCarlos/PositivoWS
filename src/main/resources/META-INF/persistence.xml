@@ -3,6 +3,7 @@
     <persistence-unit name="positivoWS" transaction-type="RESOURCE_LOCAL">
         <jta-data-source>conexao</jta-data-source>
         <class>com.rafaelcarlos.positivo.model.BoletoCarteira</class>
+        <class>com.rafaelcarlos.positivo.model.BoletoEmpresa</class>
         <class>com.rafaelcarlos.positivo.model.CartaoCredito</class>
         <class>com.rafaelcarlos.positivo.model.Carteira</class>
         <class>com.rafaelcarlos.positivo.model.CelularRecarga</class>
@@ -24,8 +25,9 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dbRecargaApp"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value="sequela"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>			
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
 </persistence>

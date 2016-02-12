@@ -5,6 +5,7 @@
  */
 package com.rafaelcarlos.positivo.positivoserver;
 
+import com.rafaelcarlos.positivo.model.TipoUsuario;
 import com.rafaelcarlos.positivo.model.Usuario;
 import com.rafaelcarlos.repositorios.UsuarioRepository;
 import javax.ws.rs.core.Context;
@@ -24,12 +25,12 @@ import javax.ws.rs.core.MediaType;
  *
  * @author rafaellcarloss
  */
-@Path("usuarioWS")
+@Path("usuario")
 public class UsuarioRest {
-
+    
     @Context
     private UriInfo context;
-
+    
     private UsuarioRepository usuarioRepository;
 
     /**
@@ -61,18 +62,39 @@ public class UsuarioRest {
     @Consumes("application/xml")
     public void putXml(String content) {
     }
-
+    
     @POST
     @Path("{id}")
     @Produces(MediaType.APPLICATION_XML)
     public Usuario porId(@PathParam("id") Integer id) {
         return usuarioRepository.getPorId(id);
     }
-
+    
+    @POST
+    @Path("inserir")
+    public void inserir() {
+        Usuario usuario = new Usuario();
+        usuario.setNome("Rafal Carlos");
+        usuario.setEmail("email@example.com");
+        usuario.setSenha("123");
+        usuario.setAtivo(true);
+        
+        usuario.setTipoUsuarioId(new TipoUsuario("Usuario"));
+        
+       new UsuarioRepository().salvar(usuario);
+       
+    }
+    
+    @PUT
+    @Path("atualizar")
+    public void atualizar(@PathParam("id") Usuario usuario) {
+        this.usuarioRepository.atualizar(usuario);
+    }
+    
     @DELETE
-    @Path("{id}")
+    @Path("excluir")
     public void excluir(@PathParam("id") Usuario usuario) {
         this.usuarioRepository.excluir(usuario);
     }
-
+    
 }

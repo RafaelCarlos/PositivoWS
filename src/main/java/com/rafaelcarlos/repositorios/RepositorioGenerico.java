@@ -80,16 +80,53 @@ public class RepositorioGenerico<PK, T> implements Serializable {
     }
 
     /**
+     * Método responsável por retornar todos os registros.
+     *
+     * @return
+     */
+    public List<T> findAll() {
+        EntityManager manager = getEntityManager();
+        manager.getTransaction().begin();
+
+        Query query = manager.createQuery("from " + classePersistente.getSimpleName());
+
+        List<T> entities = query.getResultList();
+
+        manager.getTransaction().commit();
+        manager.close();
+
+        return entities;
+    }
+
+    public T findOne(String jpql, Object... params) {
+        EntityManager manager = getEntityManager();
+        manager.getTransaction().begin();
+
+        Query query = manager.createQuery(jpql);
+
+        for (int i = 0; i < params.length; i++) {
+            query.setParameter(i + 1, params[i]);
+        }
+
+        T entity = (T) query.getSingleResult();
+
+        manager.getTransaction().commit();
+        manager.close();
+
+        return entity;
+    }
+
+    /**
      * Metodo responsavel por retornar a quantidade de registros de uma tabela.
      *
      * @return
      */
-    public long count() {
+    public Integer count() {
         entityManager.getTransaction().begin();
 
         Query query = entityManager.createQuery("select count(c) from " + classePersistente.getSimpleName() + " c");
 
-        long count = (Long) query.getSingleResult();
+        Integer count = (Integer) query.getSingleResult();
 
         entityManager.getTransaction().commit();
         entityManager.close();

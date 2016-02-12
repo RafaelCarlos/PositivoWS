@@ -1,10 +1,6 @@
 package com.rafaelcarlos.positivo.model;
 
-import com.rafaelcarlos.positivo.util.BigDecimalAdapter;
-import com.rafaelcarlos.positivo.util.ConversorPersonalizado;
 import com.rafaelcarlos.positivo.util.DateAdapter;
-import com.rafaelcarlos.positivo.util.DateAdapterProduto;
-import com.rafaelcarlos.positivo.util.DateAdapterProdutos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -27,12 +23,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.ws.rs.ApplicationPath;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -44,19 +37,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @Table(name = "produto")
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@NamedQueries({
-    @NamedQuery(name = "Produto.findAll", query = "SELECT p FROM Produto p"),
-    @NamedQuery(name = "Produto.findById", query = "SELECT p FROM Produto p WHERE p.id = :id"),
-    @NamedQuery(name = "Produto.findByQtdProduto", query = "SELECT p FROM Produto p WHERE p.qtdProduto = :qtdProduto"),
-    @NamedQuery(name = "Produto.findByNomeProduto", query = "SELECT p FROM Produto p WHERE p.nomeProduto = :nomeProduto"),
-    @NamedQuery(name = "Produto.findByValorCompra", query = "SELECT p FROM Produto p WHERE p.valorCompra = :valorCompra"),
-    @NamedQuery(name = "Produto.findByValorVenda", query = "SELECT p FROM Produto p WHERE p.valorVenda = :valorVenda"),
-    @NamedQuery(name = "Produto.findByValidade", query = "SELECT p FROM Produto p WHERE p.validade = :validade"),
-    @NamedQuery(name = "Produto.findByModeloRecarga", query = "SELECT p FROM Produto p WHERE p.modeloRecarga = :modeloRecarga"),
-    @NamedQuery(name = "Produto.findByValorMinimo", query = "SELECT p FROM Produto p WHERE p.valorMinimo = :valorMinimo"),
-    @NamedQuery(name = "Produto.findByValorMaximo", query = "SELECT p FROM Produto p WHERE p.valorMaximo = :valorMaximo"),
-    @NamedQuery(name = "Produto.findByValorVariavel", query = "SELECT p FROM Produto p WHERE p.valorVariavel = :valorVariavel"),
-    @NamedQuery(name = "Produto.findByUlltimaAtualizacao", query = "SELECT p FROM Produto p WHERE p.ulltimaAtualizacao = :ulltimaAtualizacao")})
+
 public class Produto implements Serializable {
 
     private static final long serialVersionUID = 1L;

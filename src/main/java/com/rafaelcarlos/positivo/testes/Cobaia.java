@@ -46,7 +46,6 @@ public class Cobaia {
 //        conversor.alias("produtos", Produtos.class);
 //        conversor.alias("produto", ProdutoRV.class);
 //        conversor.alias("estadosprodutopin", EstadosProdutoPin.class);
-
         JAXBContext jaxbContext = JAXBContext.newInstance(Cellcard.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 //        conversor.omitField(QtdOperadoras.class, "qtdoperadoras");
@@ -74,8 +73,9 @@ public class Cobaia {
 //        Operadora operadora = (Operadora) conversor.fromXML(varia);
 //        Cellcard cellcard = (Cellcard) conversor.fromXML(varia);
 //        Cellcard cellcardJax = (Cellcard) jaxbUnmarshaller.unmarshal(varia);
-        Object cell = jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(temp.toString())));
-        Cellcard celular = (Cellcard) cell;
+        Cellcard celular = (Cellcard) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(temp.toString())));
+//        Cellcard celular = (Cellcard) cell;
+//        Cellcard retorno =  (Cellcard) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(temp.toString())));
 
         System.out.println("Resposta: " + response);
         System.out.println("\n" + response.getStatus());

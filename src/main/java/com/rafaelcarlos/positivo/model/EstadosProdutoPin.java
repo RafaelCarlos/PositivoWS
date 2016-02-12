@@ -5,12 +5,15 @@
  */
 package com.rafaelcarlos.positivo.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author rafaellcarloss
  */
-public class EstadosProdutoPin {
+public class EstadosProdutoPin implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String qtdestadosproduto;
 
     private String[] estadoproduto;

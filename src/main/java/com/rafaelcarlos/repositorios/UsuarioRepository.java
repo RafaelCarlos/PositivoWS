@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rafaelcarlos.repositorios;
 
 import com.rafaelcarlos.positivo.model.Usuario;
@@ -17,15 +12,20 @@ public class UsuarioRepository extends RepositorioGenerico<Integer, Usuario> imp
 
     private static final long serialVersionUID = 1L;
 
-    private RepositorioGenerico usuarioRepositorio;
-
     public UsuarioRepository() {
-        super();
-        this.usuarioRepositorio = new RepositorioGenerico(Usuario.class);
+        super(Usuario.class);
+
     }
 
     public UsuarioRepository(EntityManager em) {
         super(em);
     }
 
+    public Usuario porTipoUsuario(String nomeTipo) {
+
+        String jpql = "select u from Usuario u, TipoUsuario t where t.nome_tipo like ? "
+                + "and u.tipo_usuario_id.id = t.id";
+
+        return findOne(jpql, nomeTipo);
+    }
 }
