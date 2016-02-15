@@ -18,7 +18,6 @@
         <class>com.rafaelcarlos.positivo.model.RecargaCancelada</class>
         <class>com.rafaelcarlos.positivo.model.RecargaGratis</class>
         <class>com.rafaelcarlos.positivo.model.Recomendados</class>
-        <class>com.rafaelcarlos.positivo.model.TipoUsuario</class>
         <class>com.rafaelcarlos.positivo.model.Usuario</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

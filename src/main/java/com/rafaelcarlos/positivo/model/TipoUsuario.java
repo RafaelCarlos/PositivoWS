@@ -61,11 +61,6 @@ public class TipoUsuario implements Serializable {
         this.id = id;
     }
 
-    public TipoUsuario(Integer id, String nomeTipo) {
-        this.id = id;
-        this.nomeTipo = nomeTipo;
-    }
-
     public TipoUsuario(String nomeTipo) {
         this.nomeTipo = nomeTipo;
     }

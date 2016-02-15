@@ -67,7 +67,6 @@ public class Operadora implements Serializable {
     @XmlJavaTypeAdapter(DateAdapter.class)
     private Date ultimaAtualizacaoOperadora;
 
-    @Transient
     private Produtos produtos;
     
     @Transient

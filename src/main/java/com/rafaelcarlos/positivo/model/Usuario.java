@@ -12,11 +12,11 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -47,6 +47,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByAtivo", query = "SELECT u FROM Usuario u WHERE u.ativo = :ativo")})
 public class Usuario implements Serializable {
 
+    public enum NomeTipoUsuario {
+
+        SUPORTE, ADMINISTRADOR, USUARIO
+    }
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,6 +81,9 @@ public class Usuario implements Serializable {
     @NotNull
     @Column(name = "ativo")
     private boolean ativo;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_usuario", nullable = false)
+    private NomeTipoUsuario tipoUsuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
     private Collection<CartaoCredito> cartaoCreditoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
@@ -93,24 +100,20 @@ public class Usuario implements Serializable {
     private Collection<Recomendados> recomendadosCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
     private Collection<Carteira> carteiraCollection;
-    @JoinColumn(name = "tipo_usuario_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private TipoUsuario tipoUsuarioId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
     private Collection<Recarga> recargaCollection;
 
     public Usuario() {
     }
 
-    public Usuario(Integer id) {
-        this.id = id;
-    }
-
-    public Usuario(Integer id, String email, String nome, boolean ativo) {
-        this.id = id;
+    public Usuario(String email, String senha, String idFacebook, String nome, String sobrenome, boolean ativo, NomeTipoUsuario tipousuario) {
         this.email = email;
+        this.senha = senha;
+        this.idFacebook = idFacebook;
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.ativo = ativo;
+        this.tipoUsuario = tipousuario;
     }
 
     public Integer getId() {
@@ -167,6 +170,15 @@ public class Usuario implements Serializable {
 
     public void setAtivo(boolean ativo) {
         this.ativo = ativo;
+    }
+
+    @XmlTransient
+    public NomeTipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(NomeTipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
     @XmlTransient
@@ -241,14 +253,6 @@ public class Usuario implements Serializable {
         this.carteiraCollection = carteiraCollection;
     }
 
-    public TipoUsuario getTipoUsuarioId() {
-        return tipoUsuarioId;
-    }
-
-    public void setTipoUsuarioId(TipoUsuario tipoUsuarioId) {
-        this.tipoUsuarioId = tipoUsuarioId;
-    }
-
     @XmlTransient
     public Collection<Recarga> getRecargaCollection() {
         return recargaCollection;
@@ -286,7 +290,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", email=" + email + ", senha=" + senha + ", idFacebook=" + idFacebook + ", nome=" + nome + ", sobrenome=" + sobrenome + ", ativo=" + ativo + ", cartaoCreditoCollection=" + cartaoCreditoCollection + ", celularRecargaCollection=" + celularRecargaCollection + ", configuracaoCollection=" + configuracaoCollection + ", recargaGratisCollection=" + recargaGratisCollection + ", recargaAutomaticaCollection=" + recargaAutomaticaCollection + ", feedbackCollection=" + feedbackCollection + ", recomendadosCollection=" + recomendadosCollection + ", carteiraCollection=" + carteiraCollection + ", tipoUsuarioId=" + tipoUsuarioId + ", recargaCollection=" + recargaCollection + '}';
+        return "Usuario{" + "id=" + id + ", email=" + email + ", senha=" + senha + ", idFacebook=" + idFacebook + ", nome=" + nome + ", sobrenome=" + sobrenome + ", ativo=" + ativo + ", tipousuario=" + tipoUsuario + ", cartaoCreditoCollection=" + cartaoCreditoCollection + ", celularRecargaCollection=" + celularRecargaCollection + ", configuracaoCollection=" + configuracaoCollection + ", recargaGratisCollection=" + recargaGratisCollection + ", recargaAutomaticaCollection=" + recargaAutomaticaCollection + ", feedbackCollection=" + feedbackCollection + ", recomendadosCollection=" + recomendadosCollection + ", carteiraCollection=" + carteiraCollection + ", recargaCollection=" + recargaCollection + '}';
     }
 
 }

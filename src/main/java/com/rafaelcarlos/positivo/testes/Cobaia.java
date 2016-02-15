@@ -77,6 +77,8 @@ public class Cobaia {
 //        Cellcard celular = (Cellcard) cell;
 //        Cellcard retorno =  (Cellcard) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(temp.toString())));
 
+//        System.out.println("Resultado: " + varia);
+        System.out.println("\n");
         System.out.println("Resposta: " + response);
         System.out.println("\n" + response.getStatus());
         System.out.println("Código transação: " + celular.getCodigoTransacao());
@@ -97,14 +99,14 @@ public class Cobaia {
 
                     System.out.println("\nCódigo produto: " + produto.getCodigoProduto());
                     System.out.println("Nome produto: " + produto.getNomeProduto());
-                    System.out.println("Preço compra produto: " + produto.getPrecoCompraProduto());
-                    System.out.println("Preço venda produto: " + produto.getPrecoVendaProduto());
+                    System.out.println("Preço compra produto: " + produto.getPrecocompraProduto());
+                    System.out.println("Preço venda produto: " + produto.getPrecovendaProduto());
                     System.out.println("Validade produto: " + produto.getValidade());
                     System.out.println("Modelo recarga: " + produto.getModeloRecarga());
                     System.out.println("Valor minimo: " + produto.getValorMinimoProduto());
                     System.out.println("Valor maximo: " + produto.getValorMaximoProduto());
                     System.out.println("Valor incremento: " + produto.getValorIncrementoProduto());
-                    System.out.println("Atualizaçao Produto: " + produto.getUltimaAtualizacaoProduto());
+                    System.out.println("Atualizaçao Produto: " + produto.getUltima_atualizacaoProduto());
                     System.out.println("Valor variavel: " + produto.getValorVariavel());
                     System.out.println("------------------------------------------");
                 }

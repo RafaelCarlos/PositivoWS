@@ -5,7 +5,6 @@
  */
 package com.rafaelcarlos.positivo.positivoserver;
 
-import com.rafaelcarlos.positivo.model.TipoUsuario;
 import com.rafaelcarlos.positivo.model.Usuario;
 import com.rafaelcarlos.repositorios.UsuarioRepository;
 import javax.ws.rs.core.Context;
@@ -49,15 +48,9 @@ public class UsuarioRest {
     @Produces("application/xml")
     public String getXml() {
         //TODO return proper representation object
-        throw new UnsupportedOperationException();
+        return "Usuario";
     }
-
-    /**
-     * PUT method for updating or creating an instance of UsuarioRest
-     *
-     * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
-     */
+    
     @PUT
     @Consumes("application/xml")
     public void putXml(String content) {
@@ -74,15 +67,19 @@ public class UsuarioRest {
     @Path("inserir")
     public void inserir() {
         Usuario usuario = new Usuario();
-        usuario.setNome("Rafal Carlos");
+        usuario.setId(1);
         usuario.setEmail("email@example.com");
         usuario.setSenha("123");
+        usuario.setIdFacebook("12ds");
+        
+        usuario.setNome("Rafal Carlos");
+        usuario.setSobrenome("Oliveira");
+        usuario.setSenha("123");
         usuario.setAtivo(true);
+        usuario.setTipoUsuario(Usuario.NomeTipoUsuario.SUPORTE);
         
-        usuario.setTipoUsuarioId(new TipoUsuario("Usuario"));
+        new UsuarioRepository().salvar(usuario);
         
-       new UsuarioRepository().salvar(usuario);
-       
     }
     
     @PUT
