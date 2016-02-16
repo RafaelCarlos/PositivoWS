@@ -4,6 +4,7 @@ import com.rafaelcarlos.positivo.model.Cellcard;
 import com.rafaelcarlos.positivo.model.Operadora;
 import com.rafaelcarlos.positivo.model.Produto;
 import java.io.StringReader;
+import java.text.SimpleDateFormat;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -77,6 +78,7 @@ public class Cobaia {
 //        Cellcard celular = (Cellcard) cell;
 //        Cellcard retorno =  (Cellcard) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(temp.toString())));
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 //        System.out.println("Resultado: " + varia);
         System.out.println("\n");
         System.out.println("Resposta: " + response);
@@ -85,37 +87,40 @@ public class Cobaia {
         System.out.println("Loja: " + celular.getLoja());
         System.out.println("Versão: " + celular.getVersao());
         System.out.println("Quantidade operadoras: " + celular.getOperadoras().getQtdOperadoras());
-
-        for (Operadora operadora : celular.getOperadoras().getOperadora()) {
-            if (operadora.getCodigoOperadora().equals("M5") || operadora.getCodigoOperadora().equals("M2")
-                    || operadora.getCodigoOperadora().equals("M3") || operadora.getCodigoOperadora().equals("3")) {
+        try {
+            for (Operadora operadora : celular.getOperadoras().getOperadora()) {
+//            if (operadora.getCodigoOperadora().equals("M5") || operadora.getCodigoOperadora().equals("M2")
+//                    || operadora.getCodigoOperadora().equals("M3") || operadora.getCodigoOperadora().equals("3")) {
 
                 for (Produto produto : operadora.getProdutos().getProduto()) {
 
-                    System.out.println("Codigo " + operadora.getCodigoOperadora());
-                    System.out.println("Nome " + operadora.getNomeOperadora());
-                    System.out.println("Atualizaçao Operadora: " + operadora.getUltimaAtualizacaoOperadora());
-                    System.out.println("Quantidade Produtos: " + operadora.getProdutos().getQtdprodutos());
+                    if (produto.getModeloRecarga().equals("ONLINE")) {
 
-                    System.out.println("\nCódigo produto: " + produto.getCodigoProduto());
-                    System.out.println("Nome produto: " + produto.getNomeProduto());
-                    System.out.println("Preço compra produto: " + produto.getPrecocompraProduto());
-                    System.out.println("Preço venda produto: " + produto.getPrecovendaProduto());
-                    System.out.println("Validade produto: " + produto.getValidade());
-                    System.out.println("Modelo recarga: " + produto.getModeloRecarga());
-                    System.out.println("Valor minimo: " + produto.getValorMinimoProduto());
-                    System.out.println("Valor maximo: " + produto.getValorMaximoProduto());
-                    System.out.println("Valor incremento: " + produto.getValorIncrementoProduto());
-                    System.out.println("Atualizaçao Produto: " + produto.getUltima_atualizacaoProduto());
-                    System.out.println("Valor variavel: " + produto.getValorVariavel());
-                    System.out.println("------------------------------------------");
+                        System.out.println("Codigo " + operadora.getCodigoOperadora());
+                        System.out.println("Nome " + operadora.getNomeOperadora());
+                        System.out.println("Atualizaçao Operadora: " + sdf.format(operadora.getUltimaAtualizacaoOperadora()));
+                        System.out.println("Quantidade Produtos: " + operadora.getProdutos().getQtdprodutos());
+
+                        System.out.println("\nCódigo produto: " + produto.getCodigoProduto());
+                        System.out.println("Nome produto: " + produto.getNomeProduto());
+                        System.out.println("Preço compra produto: " + produto.getPrecocompraProduto());
+                        System.out.println("Preço venda produto: " + produto.getPrecovendaProduto());
+                        System.out.println("Validade produto: " + produto.getValidade());
+                        System.out.println("Modelo recarga: " + produto.getModeloRecarga());
+                        System.out.println("Valor minimo: " + produto.getValorMinimoProduto());
+                        System.out.println("Valor maximo: " + produto.getValorMaximoProduto());
+                        System.out.println("Valor incremento: " + produto.getValorIncrementoProduto());
+//                    System.out.println("Atualizaçao Produto: " + produto.getUltima_atualizacaoProduto().toLocaleString());
+                        System.out.println("Atualização Produto: " + sdf.format(produto.getUltima_atualizacaoProduto()));
+                        System.out.println("Valor variavel: " + produto.getValorVariavel());
+                        System.out.println("------------------------------------------");
+
+                    }
+
                 }
-
-//                for(Produto produto : celular.getOperadoras().getOperadora())
-//                {
-//                    System.out.println("Codigo Produto: " + produto.getNomeProduto());
-//                }
             }
+        } catch (Exception e) {
+
         }
         response.close();
     }
