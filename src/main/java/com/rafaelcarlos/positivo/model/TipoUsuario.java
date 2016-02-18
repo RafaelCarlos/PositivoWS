@@ -51,8 +51,8 @@ public class TipoUsuario implements Serializable {
     @Size(min = 1, max = 15)
     @Column(name = "nome_tipo")
     private String nomeTipo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoUsuarioId")
-    private Collection<Usuario> usuarioCollection;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoUsuarioId")
+//    private Collection<Usuario> usuarioCollection;
 
     public TipoUsuario() {
     }
@@ -81,15 +81,14 @@ public class TipoUsuario implements Serializable {
         this.nomeTipo = nomeTipo;
     }
 
-    @XmlTransient
-    public Collection<Usuario> getUsuarioCollection() {
-        return usuarioCollection;
-    }
-
-    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
-        this.usuarioCollection = usuarioCollection;
-    }
-
+//    @XmlTransient
+//    public Collection<Usuario> getUsuarioCollection() {
+//        return usuarioCollection;
+//    }
+//
+//    public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
+//        this.usuarioCollection = usuarioCollection;
+//    }
     @Override
     public int hashCode() {
         int hash = 7;
@@ -110,11 +109,6 @@ public class TipoUsuario implements Serializable {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "TipoUsuario{" + "id=" + id + ", nomeTipo=" + nomeTipo + ", usuarioCollection=" + usuarioCollection + '}';
     }
 
 }

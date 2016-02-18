@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
@@ -67,8 +68,9 @@ public class Operadora implements Serializable {
     @XmlJavaTypeAdapter(DateAdapter.class)
     private Date ultimaAtualizacaoOperadora;
 
+    @Transient
     private Produtos produtos;
-    
+
     @Transient
     private EstadosAtuantes estadosAtuantes;
 
@@ -124,6 +126,7 @@ public class Operadora implements Serializable {
         this.ultimaAtualizacaoOperadora = ultimaAtualizacaoOperadora;
     }
 
+    @XmlTransient
     public Produtos getProdutos() {
         return produtos;
     }
@@ -132,6 +135,7 @@ public class Operadora implements Serializable {
         this.produtos = produtos;
     }
 
+    @XmlTransient
     public EstadosAtuantes getEstadosAtuantes() {
         return estadosAtuantes;
     }
@@ -140,6 +144,7 @@ public class Operadora implements Serializable {
         this.estadosAtuantes = estadosAtuantes;
     }
 
+    @XmlTransient
     public List<Produto> getProduto() {
         return produto;
     }

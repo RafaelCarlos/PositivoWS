@@ -172,7 +172,6 @@ public class Usuario implements Serializable {
         this.ativo = ativo;
     }
 
-    @XmlTransient
     public NomeTipoUsuario getTipoUsuario() {
         return tipoUsuario;
     }

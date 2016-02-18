@@ -1,10 +1,15 @@
 package com.rafaelcarlos.positivo.testes;
 
 import com.rafaelcarlos.positivo.model.Cellcard;
+import com.rafaelcarlos.positivo.model.Distribuidora;
+import com.rafaelcarlos.positivo.model.Empresa;
 import com.rafaelcarlos.positivo.model.Operadora;
 import com.rafaelcarlos.positivo.model.Produto;
+import com.rafaelcarlos.repositorios.EmpresaRepository;
+import com.rafaelcarlos.repositorios.ProdutoRepository;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -20,65 +25,48 @@ import javax.xml.transform.stream.StreamSource;
  * @author rafaellcarloss
  */
 public class Cobaia {
-
-    public static void main(String[] args) throws Exception {
-
-        Cobaia http = new Cobaia();
-
-//        System.out.println("Testing 1 - Send Http GET request");
-//        http.sendGet();
-//        System.out.println("\nTesting 2 - Send Http POST request");
-        System.out.println("Enviando form...");
-        http.enviaForm();
-
+    
+    private ProdutoRepository produtoRepository;
+    
+    public Cobaia() {
+        this.produtoRepository = new ProdutoRepository();
     }
+    
+    public static void main(String[] args) throws Exception {
+        
+        Cobaia http = new Cobaia();
+        System.out.println("Enviando form...");
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//        System.out.println("Data atual: " + sdf.format(new Date()));
 
+        http.enviaForm();
+    }
+    
     public void enviaForm() throws JAXBException {
-
+        
         Client client = ClientBuilder.newBuilder()
                 .build();
-        Integer codigo = 1;
-
-//        XStream conversor = new XStream(new DomDriver());
-//        conversor.alias("cellcard", Cellcard.class);
-//        conversor.alias("operadoras", Operadoras.class);
-//        conversor.alias("operadora", OperadoraRV.class);
-//        conversor.alias("estadosatuantes", EstadosAtuantes.class);
-//        conversor.alias("produtos", Produtos.class);
-//        conversor.alias("produto", ProdutoRV.class);
-//        conversor.alias("estadosprodutopin", EstadosProdutoPin.class);
         JAXBContext jaxbContext = JAXBContext.newInstance(Cellcard.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-//        conversor.omitField(QtdOperadoras.class, "qtdoperadoras");
-//        conversor.alias("estadosatuantes", EstadosAtuantes.class);
-//        conversor.alias("qtdestadosoperadora", QtdEstadosOperadora.class);
-//        conversor.registerConverter(new CellCardConversor());
-//        conversor.registerConverter(new OperadorasConversor());
-//        conversor.registerConverter(new OperadoraConverter());
-//        conversor.registerConverter(new ConversorData());
         Form form = new Form()
                 .param("envio_primario", "1")
                 .param("nome_primario", "teste")
                 .param("loja_primaria", "teste")
                 .param("senha_primaria", "teste")
                 .param("versao", "3.93")
-                .param("codigo_transacao", codigo.toString())
+                .param("codigo_transacao", "1")
                 .param("cod_retorno", "14");
-
+        
         Response response = client.target("https://www.cellcard.com.br/teste/integracao_xml.php")
                 .request()
                 .post(Entity.form(form));
-
+        
         String varia = response.readEntity(String.class);
         StringBuffer temp = new StringBuffer(varia);
-//        Operadora operadora = (Operadora) conversor.fromXML(varia);
-//        Cellcard cellcard = (Cellcard) conversor.fromXML(varia);
-//        Cellcard cellcardJax = (Cellcard) jaxbUnmarshaller.unmarshal(varia);
         Cellcard celular = (Cellcard) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(temp.toString())));
-//        Cellcard celular = (Cellcard) cell;
-//        Cellcard retorno =  (Cellcard) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(temp.toString())));
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 //        System.out.println("Resultado: " + varia);
         System.out.println("\n");
         System.out.println("Resposta: " + response);
@@ -87,40 +75,78 @@ public class Cobaia {
         System.out.println("Loja: " + celular.getLoja());
         System.out.println("Versão: " + celular.getVersao());
         System.out.println("Quantidade operadoras: " + celular.getOperadoras().getQtdOperadoras());
+        Produto produtoPersist = new Produto();
+        Operadora operadoraPersist = new Operadora();
+        Empresa empresa = new Empresa();
+        empresa.setRazaoSocial("Positivo Automação");
+        empresa.setIe("3023032");
+        empresa.setNomeFantasia("Positivo");
+        empresa.setCnpj("232.212.0001/21");
+        empresa.setEndereco("3203 Norte");
+        empresa.setNumero("22");
+        empresa.setComplemento("Sem Complemento");
+        empresa.setBairro("Taquari");
+        empresa.setNomeCidade("Palmas");
+        empresa.setUf("TO");
+        empresa.setCep("7770007");
+        empresa.setTelefoneEmpresa("32-2233-2222");
+        empresa.setEmailEmpresa("email@example.com");
+        empresa.setDistribuidoraId(new Distribuidora(1));
+//        new EmpresaRepository().salvar(empresa);
+        
         try {
             for (Operadora operadora : celular.getOperadoras().getOperadora()) {
 //            if (operadora.getCodigoOperadora().equals("M5") || operadora.getCodigoOperadora().equals("M2")
 //                    || operadora.getCodigoOperadora().equals("M3") || operadora.getCodigoOperadora().equals("3")) {
 
                 for (Produto produto : operadora.getProdutos().getProduto()) {
-
+                    
                     if (produto.getModeloRecarga().equals("ONLINE")) {
+                        
+//                        System.out.println("Codigo " + operadora.getCodigoOperadora());
+//                        System.out.println("Nome " + operadora.getNomeOperadora());
+//                        System.out.println("Atualizaçao Operadora: " + sdf.format(operadora.getUltimaAtualizacaoOperadora()));
+//                        System.out.println("Quantidade Produtos: " + operadora.getProdutos().getQtdprodutos());
+//                        
+//                        System.out.println("\nCódigo produto: " + produto.getCodigoProduto());
+//                        System.out.println("Nome produto: " + produto.getNomeProduto());
+//                        System.out.println("Preço compra produto: " + produto.getPrecocompraProduto());
+//                        System.out.println("Preço venda produto: " + produto.getPrecovendaProduto());
+//                        System.out.println("Validade produto: " + produto.getValidade());
+//                        System.out.println("Modelo recarga: " + produto.getModeloRecarga());
+//                        System.out.println("Valor minimo: " + produto.getValorMinimoProduto());
+//                        System.out.println("Valor maximo: " + produto.getValorMaximoProduto());
+//                        System.out.println("Valor incremento: " + produto.getValorIncrementoProduto());
+//                        System.out.println("Atualização Produto: " + sdf.format(produto.getUltima_atualizacaoProduto()));
+//                        System.out.println("Valor variavel: " + produto.getValorVariavel());
+//                        System.out.println("------------------------------------------");
+                        
+                        operadoraPersist.setNomeOperadora(operadora.getNomeOperadora());
+                        operadoraPersist.setCodigoOperadora(operadora.getCodigoOperadora());
+                        operadoraPersist.setUltimaAtualizacaoOperadora(sdf.parse(sdf.format(operadora.getUltimaAtualizacaoOperadora())));
+                        
+                        produtoPersist.setQtdProduto(operadora.getProdutos().getQtdprodutos());
+                        produtoPersist.setCodigoProduto(produto.getCodigoProduto());
+                        produtoPersist.setNomeProduto(produto.getNomeProduto());
+                        produtoPersist.setPrecocompraProduto(produto.getPrecocompraProduto());
+                        produtoPersist.setPrecovendaProduto(produto.getPrecovendaProduto());
+                        produtoPersist.setUltima_atualizacaoProduto(sdf.parse(sdf.format(operadora.getUltimaAtualizacaoOperadora())));
+                        produtoPersist.setValidade(produto.getValidade());
+                        produtoPersist.setModeloRecarga(produto.getModeloRecarga());
+                        produtoPersist.setValorMinimoProduto(produto.getValorMinimoProduto());
+                        produtoPersist.setValorMaximoProduto(produto.getValorMaximoProduto());
+                        produtoPersist.setValorIncrementoProduto(produto.getValorIncrementoProduto());
+                        produtoPersist.setValorVariavel(produto.getValorVariavel());
+                        produtoPersist.setEmpresaId(new Empresa(1));
+                        produtoPersist.setOperadoraId(operadoraPersist);
 
-                        System.out.println("Codigo " + operadora.getCodigoOperadora());
-                        System.out.println("Nome " + operadora.getNomeOperadora());
-                        System.out.println("Atualizaçao Operadora: " + sdf.format(operadora.getUltimaAtualizacaoOperadora()));
-                        System.out.println("Quantidade Produtos: " + operadora.getProdutos().getQtdprodutos());
-
-                        System.out.println("\nCódigo produto: " + produto.getCodigoProduto());
-                        System.out.println("Nome produto: " + produto.getNomeProduto());
-                        System.out.println("Preço compra produto: " + produto.getPrecocompraProduto());
-                        System.out.println("Preço venda produto: " + produto.getPrecovendaProduto());
-                        System.out.println("Validade produto: " + produto.getValidade());
-                        System.out.println("Modelo recarga: " + produto.getModeloRecarga());
-                        System.out.println("Valor minimo: " + produto.getValorMinimoProduto());
-                        System.out.println("Valor maximo: " + produto.getValorMaximoProduto());
-                        System.out.println("Valor incremento: " + produto.getValorIncrementoProduto());
-//                    System.out.println("Atualizaçao Produto: " + produto.getUltima_atualizacaoProduto().toLocaleString());
-                        System.out.println("Atualização Produto: " + sdf.format(produto.getUltima_atualizacaoProduto()));
-                        System.out.println("Valor variavel: " + produto.getValorVariavel());
-                        System.out.println("------------------------------------------");
-
+                        produtoRepository.salvar(produto);
                     }
-
+                    
                 }
             }
         } catch (Exception e) {
-
+            
         }
         response.close();
     }

@@ -21,12 +21,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
@@ -46,8 +48,8 @@ public class Produto implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
+//    @Basic(optional = false)
+//    @NotNull
     @Column(name = "qtd_produto")
     private int qtdProduto;
     @Basic(optional = false)
@@ -101,11 +103,12 @@ public class Produto implements Serializable {
     @Column(name = "valor_variavel")
     private BigDecimal precoVariavelProduto;
     @JoinColumn(name = "empresa_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Empresa empresaId;
     @JoinColumn(name = "operadora_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Operadora operadoraId;
+    @Transient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "produtoId")
     private Collection<Recarga> recargaCollection;
 
@@ -116,20 +119,22 @@ public class Produto implements Serializable {
         this.id = id;
     }
 
-    public Produto(Integer id, int qtdProduto, String codigoProduto, String nomeProduto, BigDecimal precoCompraProduto, BigDecimal precoVendaProduto, int validade, String modeloRecarga, BigDecimal valorMinimoProduto, BigDecimal valorMaximoProduto, BigDecimal valorIncrementoProduto, Date ultimaAtualizacaoProduto, BigDecimal precoVariavelProduto) {
+    public Produto(Integer id, int qtdProduto, String codigoProduto, String nomeProduto, BigDecimal precocompraProduto, BigDecimal precovendaProduto, Date ultima_atualizacaoProduto, int validade, String modeloRecarga, BigDecimal valorMinimoProduto, BigDecimal valorMaximoProduto, BigDecimal valorIncrementoProduto, BigDecimal precoVariavelProduto, Empresa empresaId, Operadora operadoraId) {
         this.id = id;
         this.qtdProduto = qtdProduto;
         this.codigoProduto = codigoProduto;
         this.nomeProduto = nomeProduto;
-        this.precocompraProduto = precoCompraProduto;
-        this.precovendaProduto = precoVendaProduto;
+        this.precocompraProduto = precocompraProduto;
+        this.precovendaProduto = precovendaProduto;
+        this.ultima_atualizacaoProduto = ultima_atualizacaoProduto;
         this.validade = validade;
         this.modeloRecarga = modeloRecarga;
         this.valorMinimoProduto = valorMinimoProduto;
         this.valorMaximoProduto = valorMaximoProduto;
         this.valorIncrementoProduto = valorIncrementoProduto;
-        this.ultima_atualizacaoProduto = ultimaAtualizacaoProduto;
         this.precoVariavelProduto = precoVariavelProduto;
+        this.empresaId = empresaId;
+        this.operadoraId = operadoraId;
     }
 
     public Integer getId() {
@@ -164,7 +169,6 @@ public class Produto implements Serializable {
         this.nomeProduto = nomeProduto;
     }
 
-//    @XmlElement
     public BigDecimal getPrecocompraProduto() {
         return precocompraProduto;
     }
