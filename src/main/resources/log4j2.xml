@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="log-path">logs</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console-log" target="SYSTEM_OUT">
+            <PatternLayout pattern="%highlight{[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{2}:%L - %msg%n}{FATAL=Bright red, ERROR=red, WARN=blue, INFO=black, DEBUG=green, TRACE=blue}"/>
+        </Console>
+        <RollingFile name="trace-log" fileName="${log-path}/positivo.log"
+                     filePattern="${log-path}/positivo-log-%d{dd-MM-yyyy}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{dd-MM-yyyy HH:mm:ss.SSS} [%t] %c{2}:%L - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="error-log" fileName="${log-path}/positivo.log"
+                     filePattern="${log-path}/positivo-error-%d{dd-MM-yyyy}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{dd-MM-yyyy HH:mm:ss.SSS} [%t] %c{2}:%L - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.rafaelcarlos" level="debug" additivity="false">
+            <appender-ref ref="trace-log" level="debug"/>
+            <appender-ref ref="error-log" level="error"/>
+            <appender-ref ref="console-log" level="debug"/>
+        </Logger>
+        <Root level="info" additivity="false">
+            <AppenderRef ref="console-log"/>
+        </Root>
+    </Loggers>
+</Configuration>

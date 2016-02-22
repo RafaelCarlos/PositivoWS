@@ -2,6 +2,8 @@ package com.rafaelcarlos.positivo.model;
 
 import com.rafaelcarlos.positivo.util.DateAdapter;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -94,6 +96,14 @@ public class Operadora implements Serializable {
         this.produto = produto;
     }
 
+    public void adiciona(Produto produtoInstancia) {
+        if (produto == null) {
+            produto = new ArrayList<Produto>();
+        }
+        produtoInstancia.setOperadoraId(this);
+        produto.add(produtoInstancia);
+    }
+
     public Integer getId() {
         return id;
     }
@@ -145,12 +155,18 @@ public class Operadora implements Serializable {
     }
 
     @XmlTransient
-    public List<Produto> getProduto() {
-        return produto;
-    }
+//    public List<Produto> getProduto() {
+//
+//        List<Produto> listaSegura = (List<Produto>) Collections.unmodifiableCollection(this.produto);
+//        return listaSegura;
+//    }
 
     public void setProduto(List<Produto> produto) {
         this.produto = produto;
+    }
+
+    public List<Produto> getProduto() {
+        return produto;
     }
 
     @Override

@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.rafaelcarlos.positivo.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -122,15 +121,21 @@ public class Empresa implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "mostrar_limite")
     private BigDecimal mostrarLimite;
+    @Transient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresaId")
-    private Collection<BoletoEmpresa> boletoEmpresaCollection;
+    private Collection<BoletoEmpresa> boletoEmpresa;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresaId")
-    private Collection<Produto> produtoCollection;
+    private Collection<Produto> produtos;
     @JoinColumn(name = "distribuidora_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Distribuidora distribuidoraId;
 
     public Empresa() {
+        super();
+    }
+
+    public Empresa(Empresa empresa) {
+
     }
 
     public Empresa(Integer id) {
@@ -150,6 +155,14 @@ public class Empresa implements Serializable {
         this.cep = cep;
         this.telefoneEmpresa = telefoneEmpresa;
         this.emailEmpresa = emailEmpresa;
+    }
+
+    public void adiciona(Produto produtoInstancia) {
+        if (produtos == null) {
+            produtos = new ArrayList<Produto>();
+        }
+        produtoInstancia.setEmpresaId(this);
+        produtos.add(produtoInstancia);
     }
 
     public Integer getId() {
@@ -273,21 +286,25 @@ public class Empresa implements Serializable {
     }
 
     @XmlTransient
-    public Collection<BoletoEmpresa> getBoletoEmpresaCollection() {
-        return boletoEmpresaCollection;
+    public Collection<BoletoEmpresa> getBoletoEmpresa() {
+        return boletoEmpresa;
     }
 
-    public void setBoletoEmpresaCollection(Collection<BoletoEmpresa> boletoEmpresaCollection) {
-        this.boletoEmpresaCollection = boletoEmpresaCollection;
+    public void setBoletoEmpresa(Collection<BoletoEmpresa> boletoEmpresa) {
+        this.boletoEmpresa = boletoEmpresa;
     }
 
-    @XmlTransient
-    public Collection<Produto> getProdutoCollection() {
-        return produtoCollection;
+//    @XmlTransient
+//    public Collection<Produto> getProdutos() {
+//        List<Produto> listaSegura = (List<Produto>) Collections.unmodifiableCollection(this.produtos);
+//        return listaSegura;
+//    }
+    public Collection<Produto> getProdutos() {
+        return produtos;
     }
 
-    public void setProdutoCollection(Collection<Produto> produtoCollection) {
-        this.produtoCollection = produtoCollection;
+    public void setProdutos(Collection<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     public Distribuidora getDistribuidoraId() {
@@ -320,7 +337,7 @@ public class Empresa implements Serializable {
 
     @Override
     public String toString() {
-        return "Empresa{" + "id=" + id + ", razaoSocial=" + razaoSocial + ", ie=" + ie + ", nomeFantasia=" + nomeFantasia + ", cnpj=" + cnpj + ", endereco=" + endereco + ", numero=" + numero + ", complemento=" + complemento + ", bairro=" + bairro + ", nomeCidade=" + nomeCidade + ", uf=" + uf + ", cep=" + cep + ", telefoneEmpresa=" + telefoneEmpresa + ", emailEmpresa=" + emailEmpresa + ", mostrarLimite=" + mostrarLimite + ", boletoEmpresaCollection=" + boletoEmpresaCollection + ", produtoCollection=" + produtoCollection + ", distribuidoraId=" + distribuidoraId + '}';
+        return "Empresa{" + "id=" + id + ", razaoSocial=" + razaoSocial + ", ie=" + ie + ", nomeFantasia=" + nomeFantasia + ", cnpj=" + cnpj + ", endereco=" + endereco + ", numero=" + numero + ", complemento=" + complemento + ", bairro=" + bairro + ", nomeCidade=" + nomeCidade + ", uf=" + uf + ", cep=" + cep + ", telefoneEmpresa=" + telefoneEmpresa + ", emailEmpresa=" + emailEmpresa + ", mostrarLimite=" + mostrarLimite + ", boletoEmpresaCollection=" + boletoEmpresa + ", produtoCollection=" + produtos + ", distribuidoraId=" + distribuidoraId + '}';
     }
 
 }

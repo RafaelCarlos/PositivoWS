@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,6 +31,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -103,10 +105,10 @@ public class Produto implements Serializable {
     @Column(name = "valor_variavel")
     private BigDecimal precoVariavelProduto;
     @JoinColumn(name = "empresa_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Empresa.class, optional = false, cascade = CascadeType.ALL)
     private Empresa empresaId;
     @JoinColumn(name = "operadora_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Operadora.class, optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Operadora operadoraId;
     @Transient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "produtoId")
@@ -297,7 +299,7 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return "Produto{" + "id=" + id + ", qtdProduto=" + qtdProduto + ", codigoProduto=" + codigoProduto + ", nomeProduto=" + nomeProduto + ", valorCompra=" + precocompraProduto + ", valorVenda=" + precovendaProduto + ", validade=" + validade + ", modeloRecarga=" + modeloRecarga + ", valorMinimo=" + valorMinimoProduto + ", valorMaximo=" + valorMaximoProduto + ", valorVariavel=" + precoVariavelProduto + ", ulltimaAtualizacao=" + ultima_atualizacaoProduto + ", valorIncremento=" + valorIncrementoProduto + ", empresaId=" + empresaId + ", operadoraId=" + operadoraId + ", recargaCollection=" + recargaCollection + '}';
+        return "Produto{" + "id=" + id + ", qtdProduto=" + qtdProduto + ", codigoProduto=" + codigoProduto + ", nomeProduto=" + nomeProduto + ", precocompraProduto=" + precocompraProduto + ", precovendaProduto=" + precovendaProduto + ", ultima_atualizacaoProduto=" + ultima_atualizacaoProduto + ", validade=" + validade + ", modeloRecarga=" + modeloRecarga + ", valorMinimoProduto=" + valorMinimoProduto + ", valorMaximoProduto=" + valorMaximoProduto + ", valorIncrementoProduto=" + valorIncrementoProduto + ", precoVariavelProduto=" + precoVariavelProduto + '}';
     }
 
 }

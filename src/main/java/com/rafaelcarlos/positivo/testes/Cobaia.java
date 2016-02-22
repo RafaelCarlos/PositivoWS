@@ -6,9 +6,12 @@ import com.rafaelcarlos.positivo.model.Empresa;
 import com.rafaelcarlos.positivo.model.Operadora;
 import com.rafaelcarlos.positivo.model.Produto;
 import com.rafaelcarlos.repositorios.EmpresaRepository;
+import com.rafaelcarlos.repositorios.OperadoraRepository;
 import com.rafaelcarlos.repositorios.ProdutoRepository;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -24,16 +27,18 @@ import javax.xml.transform.stream.StreamSource;
  *
  * @author rafaellcarloss
  */
-public class Cobaia {
-    
+public class Cobaia implements Serializable {
+
     private ProdutoRepository produtoRepository;
-    
+    private OperadoraRepository operadoraRepository;
+
     public Cobaia() {
         this.produtoRepository = new ProdutoRepository();
+        this.operadoraRepository = new OperadoraRepository();
     }
-    
+
     public static void main(String[] args) throws Exception {
-        
+
         Cobaia http = new Cobaia();
         System.out.println("Enviando form...");
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -41,9 +46,9 @@ public class Cobaia {
 
         http.enviaForm();
     }
-    
+
     public void enviaForm() throws JAXBException {
-        
+
         Client client = ClientBuilder.newBuilder()
                 .build();
         JAXBContext jaxbContext = JAXBContext.newInstance(Cellcard.class);
@@ -56,16 +61,16 @@ public class Cobaia {
                 .param("versao", "3.93")
                 .param("codigo_transacao", "1")
                 .param("cod_retorno", "14");
-        
+
         Response response = client.target("https://www.cellcard.com.br/teste/integracao_xml.php")
                 .request()
                 .post(Entity.form(form));
-        
+
         String varia = response.readEntity(String.class);
         StringBuffer temp = new StringBuffer(varia);
         Cellcard celular = (Cellcard) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(temp.toString())));
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 //        System.out.println("Resultado: " + varia);
         System.out.println("\n");
@@ -93,16 +98,17 @@ public class Cobaia {
         empresa.setEmailEmpresa("email@example.com");
         empresa.setDistribuidoraId(new Distribuidora(1));
 //        new EmpresaRepository().salvar(empresa);
-        
+        EmpresaRepository empresaRepository = new EmpresaRepository();
+        int contador = 0;
         try {
             for (Operadora operadora : celular.getOperadoras().getOperadora()) {
 //            if (operadora.getCodigoOperadora().equals("M5") || operadora.getCodigoOperadora().equals("M2")
 //                    || operadora.getCodigoOperadora().equals("M3") || operadora.getCodigoOperadora().equals("3")) {
 
                 for (Produto produto : operadora.getProdutos().getProduto()) {
-                    
+
                     if (produto.getModeloRecarga().equals("ONLINE")) {
-                        
+                        contador++;
 //                        System.out.println("Codigo " + operadora.getCodigoOperadora());
 //                        System.out.println("Nome " + operadora.getNomeOperadora());
 //                        System.out.println("Atualizaçao Operadora: " + sdf.format(operadora.getUltimaAtualizacaoOperadora()));
@@ -120,11 +126,11 @@ public class Cobaia {
 //                        System.out.println("Atualização Produto: " + sdf.format(produto.getUltima_atualizacaoProduto()));
 //                        System.out.println("Valor variavel: " + produto.getValorVariavel());
 //                        System.out.println("------------------------------------------");
-                        
                         operadoraPersist.setNomeOperadora(operadora.getNomeOperadora());
                         operadoraPersist.setCodigoOperadora(operadora.getCodigoOperadora());
                         operadoraPersist.setUltimaAtualizacaoOperadora(sdf.parse(sdf.format(operadora.getUltimaAtualizacaoOperadora())));
-                        
+//                        operadoraRepository.salvar(operadora);
+
                         produtoPersist.setQtdProduto(operadora.getProdutos().getQtdprodutos());
                         produtoPersist.setCodigoProduto(produto.getCodigoProduto());
                         produtoPersist.setNomeProduto(produto.getNomeProduto());
@@ -137,17 +143,29 @@ public class Cobaia {
                         produtoPersist.setValorMaximoProduto(produto.getValorMaximoProduto());
                         produtoPersist.setValorIncrementoProduto(produto.getValorIncrementoProduto());
                         produtoPersist.setValorVariavel(produto.getValorVariavel());
-                        produtoPersist.setEmpresaId(new Empresa(1));
-                        produtoPersist.setOperadoraId(operadoraPersist);
-
-                        produtoRepository.salvar(produto);
+                        empresa.adiciona(produtoPersist);
+//                        empresa.setId(null);
+//                        operadoraPersist.getProduto().add(produtoPersist);
+//                        empresa.getProdutos().add(produtoPersist);
+//                        empresa.adiciona(produto);
+//                        operadora.adiciona(produto);
+//                        produtoPersist.setEmpresaId(empresa);
+//                        produtoPersist.setOperadoraId(operadoraPersist);
+//                        operadoraPersist.setProduto(Arrays.asList(produtoPersist));]
+                        operadoraPersist.adiciona(produtoPersist);
+                        operadoraPersist.setId(null);
+//                produtoPersist.setEmpresaId(new Empresa());
+                        empresa.setId(null);
+                        operadoraRepository.salvar(operadoraPersist);
                     }
-                    
+
                 }
+
             }
         } catch (Exception e) {
-            
+
         }
+        System.out.println("Quantidade de produtos que funcionam com regarca online: " + contador);
         response.close();
     }
 }
