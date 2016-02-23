@@ -28,17 +28,17 @@ import javax.xml.transform.stream.StreamSource;
  * @author rafaellcarloss
  */
 public class Cobaia implements Serializable {
-
+    
     private ProdutoRepository produtoRepository;
     private OperadoraRepository operadoraRepository;
-
+    
     public Cobaia() {
         this.produtoRepository = new ProdutoRepository();
         this.operadoraRepository = new OperadoraRepository();
     }
-
+    
     public static void main(String[] args) throws Exception {
-
+        
         Cobaia http = new Cobaia();
         System.out.println("Enviando form...");
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -46,9 +46,9 @@ public class Cobaia implements Serializable {
 
         http.enviaForm();
     }
-
+    
     public void enviaForm() throws JAXBException {
-
+        
         Client client = ClientBuilder.newBuilder()
                 .build();
         JAXBContext jaxbContext = JAXBContext.newInstance(Cellcard.class);
@@ -61,15 +61,15 @@ public class Cobaia implements Serializable {
                 .param("versao", "3.93")
                 .param("codigo_transacao", "1")
                 .param("cod_retorno", "14");
-
+        
         Response response = client.target("https://www.cellcard.com.br/teste/integracao_xml.php")
                 .request()
                 .post(Entity.form(form));
-
+        
         String varia = response.readEntity(String.class);
         StringBuffer temp = new StringBuffer(varia);
         Cellcard celular = (Cellcard) jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(temp.toString())));
-
+        
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 //        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 //        System.out.println("Resultado: " + varia);
@@ -98,7 +98,7 @@ public class Cobaia implements Serializable {
         empresa.setEmailEmpresa("email@example.com");
         empresa.setDistribuidoraId(new Distribuidora(1));
 //        new EmpresaRepository().salvar(empresa);
-        EmpresaRepository empresaRepository = new EmpresaRepository();
+        Empresa empresaRepository = new EmpresaRepository().getPorId(6);
         int contador = 0;
         try {
             for (Operadora operadora : celular.getOperadoras().getOperadora()) {
@@ -106,7 +106,7 @@ public class Cobaia implements Serializable {
 //                    || operadora.getCodigoOperadora().equals("M3") || operadora.getCodigoOperadora().equals("3")) {
 
                 for (Produto produto : operadora.getProdutos().getProduto()) {
-
+                    
                     if (produto.getModeloRecarga().equals("ONLINE")) {
                         contador++;
 //                        System.out.println("Codigo " + operadora.getCodigoOperadora());
@@ -143,27 +143,29 @@ public class Cobaia implements Serializable {
                         produtoPersist.setValorMaximoProduto(produto.getValorMaximoProduto());
                         produtoPersist.setValorIncrementoProduto(produto.getValorIncrementoProduto());
                         produtoPersist.setValorVariavel(produto.getValorVariavel());
-                        empresa.adiciona(produtoPersist);
+//                        empresa.adiciona(produtoPersist);
 //                        empresa.setId(null);
 //                        operadoraPersist.getProduto().add(produtoPersist);
 //                        empresa.getProdutos().add(produtoPersist);
 //                        empresa.adiciona(produto);
 //                        operadora.adiciona(produto);
 //                        produtoPersist.setEmpresaId(empresa);
-//                        produtoPersist.setOperadoraId(operadoraPersist);
+                        produtoPersist.setEmpresaId(empresaRepository);
+                        produtoPersist.setOperadoraId(operadoraPersist);
 //                        operadoraPersist.setProduto(Arrays.asList(produtoPersist));]
-                        operadoraPersist.adiciona(produtoPersist);
-                        operadoraPersist.setId(null);
-//                produtoPersist.setEmpresaId(new Empresa());
-                        empresa.setId(null);
-                        operadoraRepository.salvar(operadoraPersist);
+//                        operadoraPersist.adiciona(produtoPersist);
+//                        operadoraPersist.setId(null);
+//                        empresa.setId(null);
+//                        operadoraRepository.salvar(operadoraPersist);
+//                        produtoPersist.setId(null);
+                        produtoRepository.salvar(produtoPersist);
                     }
-
+                    
                 }
-
+                
             }
         } catch (Exception e) {
-
+            
         }
         System.out.println("Quantidade de produtos que funcionam com regarca online: " + contador);
         response.close();

@@ -66,7 +66,7 @@ public class Produto implements Serializable {
     private String nomeProduto;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "valor_compra")
+    @Column(name = "valor_compra" , precision = 5, scale = 2)
 //    @XmlElement(name = "precocompraproduto", required = true)
     private BigDecimal precocompraProduto;
     @Basic(optional = false)
@@ -108,7 +108,7 @@ public class Produto implements Serializable {
     @ManyToOne(targetEntity = Empresa.class, optional = false, cascade = CascadeType.ALL)
     private Empresa empresaId;
     @JoinColumn(name = "operadora_id", referencedColumnName = "id")
-    @ManyToOne(targetEntity = Operadora.class, optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Operadora.class, optional = false, cascade = CascadeType.PERSIST)
     private Operadora operadoraId;
     @Transient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "produtoId")
