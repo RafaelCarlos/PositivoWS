@@ -121,7 +121,6 @@ public class Empresa implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "mostrar_limite")
     private BigDecimal mostrarLimite;
-    @Transient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresaId")
     private Collection<BoletoEmpresa> boletoEmpresa;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "empresaId")

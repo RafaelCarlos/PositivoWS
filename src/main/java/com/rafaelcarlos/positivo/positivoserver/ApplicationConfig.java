@@ -28,7 +28,6 @@ public class ApplicationConfig extends Application {
         resources.add(com.rafaelcarlos.positivo.positivoserver.PositivoWSResource.class);
         resources.add(com.rafaelcarlos.positivo.positivoserver.ProdutoWSResource.class);
         resources.add(com.rafaelcarlos.positivo.positivoserver.RecargaWS.class);
-        resources.add(com.rafaelcarlos.positivo.positivoserver.TipoUsuarioRest.class);
         resources.add(com.rafaelcarlos.positivo.positivoserver.UsuarioRest.class);
     }
 

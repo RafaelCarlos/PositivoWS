@@ -21,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -82,8 +83,8 @@ public class Usuario implements Serializable {
     @Column(name = "ativo")
     private boolean ativo;
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_usuario", nullable = false)
-    private NomeTipoUsuario tipoUsuario;
+    @Column(name = "nome_tipo_usuario", nullable = false)
+    private NomeTipoUsuario nomeTipoUsuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
     private Collection<CartaoCredito> cartaoCreditoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
@@ -113,7 +114,7 @@ public class Usuario implements Serializable {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.ativo = ativo;
-        this.tipoUsuario = tipousuario;
+        this.nomeTipoUsuario = tipousuario;
     }
 
     public Integer getId() {
@@ -172,12 +173,12 @@ public class Usuario implements Serializable {
         this.ativo = ativo;
     }
 
-    public NomeTipoUsuario getTipoUsuario() {
-        return tipoUsuario;
+    public NomeTipoUsuario getNomeTipoUsuario() {
+        return nomeTipoUsuario;
     }
 
-    public void setTipoUsuario(NomeTipoUsuario tipoUsuario) {
-        this.tipoUsuario = tipoUsuario;
+    public void setNomeTipoUsuario(NomeTipoUsuario nomeTipoUsuario) {
+        this.nomeTipoUsuario = nomeTipoUsuario;
     }
 
     @XmlTransient
@@ -289,7 +290,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", email=" + email + ", senha=" + senha + ", idFacebook=" + idFacebook + ", nome=" + nome + ", sobrenome=" + sobrenome + ", ativo=" + ativo + ", tipousuario=" + tipoUsuario + ", cartaoCreditoCollection=" + cartaoCreditoCollection + ", celularRecargaCollection=" + celularRecargaCollection + ", configuracaoCollection=" + configuracaoCollection + ", recargaGratisCollection=" + recargaGratisCollection + ", recargaAutomaticaCollection=" + recargaAutomaticaCollection + ", feedbackCollection=" + feedbackCollection + ", recomendadosCollection=" + recomendadosCollection + ", carteiraCollection=" + carteiraCollection + ", recargaCollection=" + recargaCollection + '}';
+        return "Usuario{" + "id=" + id + ", email=" + email + ", senha=" + senha + ", idFacebook=" + idFacebook + ", nome=" + nome + ", sobrenome=" + sobrenome + ", ativo=" + ativo + ", tipousuario=" + nomeTipoUsuario + ", cartaoCreditoCollection=" + cartaoCreditoCollection + ", celularRecargaCollection=" + celularRecargaCollection + ", configuracaoCollection=" + configuracaoCollection + ", recargaGratisCollection=" + recargaGratisCollection + ", recargaAutomaticaCollection=" + recargaAutomaticaCollection + ", feedbackCollection=" + feedbackCollection + ", recomendadosCollection=" + recomendadosCollection + ", carteiraCollection=" + carteiraCollection + ", recargaCollection=" + recargaCollection + '}';
     }
 
 }

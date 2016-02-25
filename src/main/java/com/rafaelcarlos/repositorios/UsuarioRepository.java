@@ -2,6 +2,7 @@ package com.rafaelcarlos.repositorios;
 
 import com.rafaelcarlos.positivo.model.Usuario;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -21,11 +22,17 @@ public class UsuarioRepository extends RepositorioGenerico<Integer, Usuario> imp
         super(em);
     }
 
-    public Usuario porTipoUsuario(String nomeTipo) {
+    public List<Usuario> porTipoUsuario(String nomeTipo) {
 
-        String jpql = "select u from Usuario u, TipoUsuario t where t.nome_tipo like ? "
-                + "and u.tipo_usuario_id.id = t.id";
+        String jpql = "SELECT u FROM Usuario u WHERE u.nomeTipo like ? ";
 
-        return findOne(jpql, nomeTipo);
+        return find(jpql, nomeTipo);
+    }
+
+    public List<Usuario> porSobrenome(String sobrenome) {
+
+        String jpql = "SELECT u FROM Usuario u WHERE u.sobrenome like ? ";
+
+        return find(jpql, sobrenome);
     }
 }

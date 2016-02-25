@@ -7,6 +7,7 @@ package com.rafaelcarlos.positivo.positivoserver;
 
 import com.rafaelcarlos.positivo.model.Produto;
 import com.rafaelcarlos.positivo.model.Usuario;
+import com.rafaelcarlos.repositorios.ProdutoRepository;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -83,12 +84,6 @@ public class ProdutoWSResource {
 //        return toReturn;
     }
 
-    /**
-     * Retrieves representation of an instance of
-     * com.rafaelcarlos.positivo.model.ProdutoWSResource
-     *
-     * @return an instance of java.lang.String
-     */
     @GET
     @Produces("application/xml")
     public String getXml() {
@@ -96,12 +91,16 @@ public class ProdutoWSResource {
         return "oi";
     }
 
-    /**
-     * PUT method for updating or creating an instance of ProdutoWSResource
-     *
-     * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
-     */
+    @GET
+    @Path("listatodosprodutos")
+    @Produces(MediaType.APPLICATION_XML)
+    public Produto listaProdutos() {
+
+        Produto produto = new ProdutoRepository().getPorId(12);
+        return produto;
+
+    }
+
     @PUT
     @Consumes("application/xml")
     public void putXml(String content) {

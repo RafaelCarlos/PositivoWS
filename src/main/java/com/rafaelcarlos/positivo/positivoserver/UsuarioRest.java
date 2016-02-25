@@ -10,7 +10,6 @@ import com.rafaelcarlos.repositorios.UsuarioRepository;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
@@ -26,72 +25,72 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("usuario")
 public class UsuarioRest {
-    
+
     @Context
     private UriInfo context;
-    
+
     private UsuarioRepository usuarioRepository;
+    private Usuario usuario;
 
     /**
      * Creates a new instance of UsuarioRest
      */
     public UsuarioRest() {
+        usuarioRepository = new UsuarioRepository();
+        usuario = new Usuario();
     }
 
-    /**
-     * Retrieves representation of an instance of
-     * com.rafaelcarlos.positivo.positivoserver.UsuarioRest
-     *
-     * @return an instance of java.lang.String
-     */
     @GET
     @Produces("application/xml")
     public String getXml() {
         //TODO return proper representation object
         return "Usuario";
     }
-    
-    @PUT
-    @Consumes("application/xml")
-    public void putXml(String content) {
-    }
-    
+
     @POST
     @Path("{id}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces("application/xml")
     public Usuario porId(@PathParam("id") Integer id) {
         return usuarioRepository.getPorId(id);
     }
-    
+
     @POST
     @Path("inserir")
-    public void inserir() {
-        Usuario usuario = new Usuario();
-        usuario.setId(1);
-        usuario.setEmail("email@example.com");
-        usuario.setSenha("123");
-        usuario.setIdFacebook("12ds");
-        
-        usuario.setNome("Rafal Carlos");
-        usuario.setSobrenome("Oliveira");
-        usuario.setSenha("123");
+    @Produces(MediaType.APPLICATION_JSON)
+    public void inserir(@PathParam("email") String email,
+            @PathParam("senha") String senha,
+            @PathParam("id_facebook") String idFacebook,
+            @PathParam("nome") String nome,
+            @PathParam("sobre_nome") String sobreNome) {
+
+        usuario.setEmail(email);
+        usuario.setSenha(senha);
+        usuario.setIdFacebook(idFacebook);
+        usuario.setNome(nome);
+        usuario.setSobrenome(sobreNome);
         usuario.setAtivo(true);
-        usuario.setTipoUsuario(Usuario.NomeTipoUsuario.SUPORTE);
-        
-        new UsuarioRepository().salvar(usuario);
-        
+        usuario.setNomeTipoUsuario(Usuario.NomeTipoUsuario.USUARIO);
+
+        usuarioRepository.salvar(usuario);
+
+//        for (Usuario usu : usuarioRepository.porSobrenome("Oliveira")) {
+//
+//            System.out.println("Usuarios com sobrenome Oliveira: " + usu);
+//            return (List<Usuario>) usu;
+//        }
+//        return usuarioRepository.porSobrenome("Oliveira");
     }
-    
+
     @PUT
     @Path("atualizar")
     public void atualizar(@PathParam("id") Usuario usuario) {
         this.usuarioRepository.atualizar(usuario);
     }
-    
+
     @DELETE
     @Path("excluir")
     public void excluir(@PathParam("id") Usuario usuario) {
         this.usuarioRepository.excluir(usuario);
     }
-    
+
 }
